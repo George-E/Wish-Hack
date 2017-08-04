@@ -3,6 +3,8 @@ package com.contextlogic.wish;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 
+import com.intellij.openapi.util.IconLoader;
+import com.intellij.psi.PsiDirectory;
 import com.tinify.*;
 
 import java.io.File;
@@ -30,17 +32,31 @@ public class ImageCompressionAction extends AnAction {
             Tinify.setKey("MVGfmtzZA1YB-igVC9aJHFLO2GehQn_X");
             File srcFile = new File(src);
             File destFile = new File(dest);
-            if (srcFile.exists() && destFile.exists()) {
-                Tinify.fromFile(src).toFile(dest + "/" + srcFile.getName());
-            } else {
-                BaseErrorDialog errorDialog = new BaseErrorDialog(
-                        "File Does Not Exist",
-                        "File Does Not Exist"
+
+            BaseErrorDialog errorDialog = null;
+            if (!srcFile.exists()) {
+                errorDialog = new BaseErrorDialog(
+                        "Image file does not exist!",
+                        "Could not find file: \"" + src + "\""
                 );
-                errorDialog.show();
+            } else if (!destFile.exists()) {
+                errorDialog = new BaseErrorDialog(
+                        "Destination folder does not exist!",
+                        "Could not find folder: \"" + dest + "/\""
+                );
             }
+
+            if (errorDialog != null) {
+                errorDialog.show();
+                return;
+            }
+            Tinify.fromFile(src).toFile(dest + "/" + srcFile.getName());
         } catch (Exception e) {
-            e.printStackTrace();
+            BaseErrorDialog errorDialog = new BaseErrorDialog(
+                    "Unexpected Error:",
+                    e.getLocalizedMessage()
+            );
+            errorDialog.show();
         }
     }
 }
