@@ -1,26 +1,24 @@
-package com.contextlogic.wish;
+package com.contextlogic.wish.tool_handlers;
 
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-
-import com.intellij.openapi.util.IconLoader;
-import com.intellij.psi.PsiDirectory;
+import com.contextlogic.wish.BaseErrorDialog;
+import com.contextlogic.wish.tool_dialogs.AddImageDialog;
+import com.intellij.openapi.ui.DialogWrapper;
 import com.tinify.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.Exception;
 
-public class ImageCompressionAction extends AnAction {
+public class AddImageHandler implements BaseToolHandler {
+
+    AddImageDialog mDialog;
 
     @Override
-    public void actionPerformed(AnActionEvent e) {
-        // TODO: insert action logic here
-        TinyPNGDialog dialog = new TinyPNGDialog();
-        dialog.show();
-        if (dialog.isOK()) {
-            String source = dialog.getSource();
-            String destination = dialog.getDestination();
+    public void handleDialog(DialogWrapper dialog) {
+        mDialog = (AddImageDialog) dialog;
+        mDialog.show();
+        if (mDialog.isOK()) {
+            String source = mDialog.getSource();
+            String destination = mDialog.getDestination();
             System.out.println(source);
             System.out.println(destination);
             compressAndSave(source, destination);

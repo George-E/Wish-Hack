@@ -1,4 +1,4 @@
-package com.contextlogic.wish;
+package com.contextlogic.wish.home;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -12,7 +12,7 @@ public class OpenPluginAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {
-        PluginHomeDialog dia = new PluginHomeDialog("hi", "hi");
-        dia.show();
+        PluginHomeDialog dialog = new PluginHomeDialog("hi", "hi");
+        dialog.show();
     }
 }
