@@ -30,7 +30,7 @@
 
   <actions>
     <!-- Add your actions here -->
-    <action id="OpenPLugin" class="com.contextlogic.wish.OpenPluginAction" text="Open Wish Product Plugin"
+    <action id="OpenPLugin" class="com.contextlogic.wish.home.OpenPluginAction" text="Open Wish Product Plugin"
             description="Open a list of Wish Product developer tools">
       <add-to-group group-id="MainToolBar" anchor="last"/>
     </action>
