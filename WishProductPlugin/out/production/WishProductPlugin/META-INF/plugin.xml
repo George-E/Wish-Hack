@@ -30,10 +30,9 @@
 
   <actions>
     <!-- Add your actions here -->
-
-    <action id="com.contextlogic.wish.GenerateModelAction" class="com.contextlogic.wish.GenerateModelAction" text="Generate Model"
-            description="Generate parcelable implementation">
-      <add-to-group group-id="ToolsMenu" anchor="first"/>
+    <action id="ImageCompressionTesting" class="com.contextlogic.wish.ImageCompressionAction" text="Image Compression"
+            description="Add file to project, auto compress it using tinypng api">
+      <add-to-group group-id="ToolsMenu" anchor="last"/>
     </action>
   </actions>
 
