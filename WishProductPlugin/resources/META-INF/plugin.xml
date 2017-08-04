@@ -30,9 +30,9 @@
 
   <actions>
     <!-- Add your actions here -->
-    <action id="ImageCompressionTesting" class="com.contextlogic.wish.ImageCompressionAction" text="Image Compression"
-            description="Add file to project, auto compress it using tinypng api">
-      <add-to-group group-id="ToolsMenu" anchor="last"/>
+    <action id="OpenPLugin" class="com.contextlogic.wish.home.OpenPluginAction" text="Open Wish Product Plugin"
+            description="Open a list of Wish Product developer tools">
+      <add-to-group group-id="MainToolBar" anchor="last"/>
     </action>
   </actions>
 

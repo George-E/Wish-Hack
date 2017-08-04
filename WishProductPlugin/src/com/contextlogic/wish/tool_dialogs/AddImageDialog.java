@@ -1,6 +1,5 @@
-package com.contextlogic.wish;
+package com.contextlogic.wish.tool_dialogs;
 
-import com.intellij.openapi.ui.DialogWrapper;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -9,13 +8,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-public class TinyPNGDialog extends DialogWrapper {
+public class AddImageDialog extends BaseToolDialog {
 
     private JTextField mSrcFileTextField;
     private JTextField mDestFileTextField;
 
-    public TinyPNGDialog() {
-        super(false);
+    public AddImageDialog(Component parent) {
+        super(parent);
         setTitle("Select image to be compressed and added");
         myOKAction.putValue(Action.NAME, "Add");
         init();
@@ -26,7 +25,7 @@ public class TinyPNGDialog extends DialogWrapper {
     protected JComponent createCenterPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setPreferredSize(new Dimension(100, 480));
+        panel.setPreferredSize(new Dimension(400, 300));
 
         JLabel srcPrompt = new JLabel("Choose Image:");
         JPanel srcFilePanel = new JPanel(new BorderLayout());
