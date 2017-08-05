@@ -7,6 +7,7 @@ import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
+import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
 import com.intellij.psi.util.PsiTreeUtil;
 
@@ -26,44 +27,61 @@ public class GenerateModelAction extends AnAction {
         GenerateModelDialog dialog = new GenerateModelDialog(mProject);
         dialog.show();
         if (dialog.isOK()) {
-            PsiFile file = createFile(dialog.getFileName());
-            new WriteCommandAction.Simple(mProject, file) {
-                @Override
-                protected void run() throws Throwable {
-                    addFields(file, dialog.getFieldsList());
-                }
-            }.execute();
+            createModel(dialog.getFileName(), dialog.getFieldsList());
         }
     }
 
-    private PsiFile createFile(String fileName) {
+    private void createModel(String fileName, ArrayList<ModelFieldInfoRow> fields) {
         String classText = "public class " + fileName + " {\n}";
         PsiFile newFile = PsiFileFactory.getInstance(mProject).createFileFromText(fileName + ".java", StdFileTypes.JAVA, classText);
         VirtualFile baseDir = mProject.getBaseDir();
         PsiDirectory destinationDir = PsiManager.getInstance(mProject).findDirectory(baseDir)
                 .findSubdirectory("src")
                 .findSubdirectory("models");
+        PsiClass modelClass = getChildClass(newFile);
+        generateFields(modelClass, fields);
+        generateGetters(modelClass);
+
+        CodeStyleManager.getInstance(mProject).reformat(modelClass);
         new WriteCommandAction.Simple(mProject, newFile) {
             @Override
             protected void run() throws Throwable {
                 destinationDir.add(newFile);
-
             }
         }.execute();
-        return newFile;
     }
 
-    private void addFields(PsiFile file, ArrayList<ModelFieldInfoRow> rows) {
+    private PsiClass getChildClass(PsiFile file) {
         PsiClass psiClass = PsiTreeUtil.findChildOfType(file, PsiClass.class);
+        return psiClass;
+    }
+
+    private void generateFields(PsiClass psiClass, ArrayList<ModelFieldInfoRow> rows) {
         for (ModelFieldInfoRow fieldInfo : rows) {
             if (!fieldInfo.isValidField()) {
                 return;
             }
             String fieldString = "private " + fieldInfo.getFieldType() + " " + fieldInfo.getFieldName() + ";";
             PsiField psiField = JavaPsiFacade.getElementFactory(mProject).createFieldFromText(fieldString, psiClass);
-            System.out.println(psiClass.toString());
             PsiElement element = psiClass.add(psiField);
             JavaCodeStyleManager.getInstance(mProject).shortenClassReferences(element);
         }
+    }
+
+    private void generateGetters(PsiClass psiClass) {
+        PsiField[] fields = psiClass.getAllFields();
+        for (PsiField field: fields) {
+            String signature = "public " + field.getType().getPresentableText() + " get" + field.getName() + "()";
+            StringBuilder builder = new StringBuilder(signature);
+            builder.append("\n{ return " + field.getName() + ";\n}");
+            PsiMethod method = createPsiMethod(builder.toString(), psiClass);
+            psiClass.add(method);
+        }
+    }
+
+    private PsiMethod createPsiMethod(String methodString, PsiClass psiClass) {
+        PsiElementFactory elementFactory = JavaPsiFacade.getElementFactory(mProject);
+        PsiMethod method = elementFactory.createMethodFromText(methodString.toString(), psiClass);
+        return method;
     }
 }

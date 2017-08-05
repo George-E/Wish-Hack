@@ -1,7 +1,5 @@
 package com.contextlogic.wish.haris;
 
-import com.contextlogic.wish.ViewUtil;
-
 import javax.swing.*;
 import java.awt.*;
 

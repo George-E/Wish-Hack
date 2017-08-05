@@ -1,4 +1,4 @@
-package com.contextlogic.wish;
+package com.contextlogic.wish.haris;
 
 import javax.swing.*;
 
@@ -10,6 +10,6 @@ public class ViewUtil {
         if (textField == null || textField.getText().trim() == "") {
             return null;
         }
-        return textField.getText();
+        return textField.getText().trim();
     }
 }
