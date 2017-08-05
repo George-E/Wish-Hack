@@ -3,6 +3,7 @@ package com.contextlogic.wish.haris;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.command.WriteCommandAction;
+import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
@@ -17,19 +18,22 @@ import java.util.ArrayList;
  */
 public class GenerateModelAction extends AnAction {
 
-    private static String TYPE_JSONException = " org.json.JSONException ";
-    private static String TYPE_JSONObject = " org.json.JSONObject ";
-    private static String TYPE_ParseException = " java.text.ParseException ";
+    private static String TYPE_JSONException = "org.json.JSONException";
+    private static String TYPE_JSONObject = "org.json.JSONObject";
+    private static String TYPE_ParseException = "java.text.ParseException";
     private static String TYPE_Parcel = " android.os.Parcel ";
     private static String TYPE_Parcelable = " android.os.Parcelable ";
 
     private Project mProject;
+    private PsiElementFactory mElementFactory;
 
     @Override
     public void actionPerformed(AnActionEvent e) {
         mProject = e.getProject();
 
         GenerateModelDialog dialog = new GenerateModelDialog(mProject);
+        mElementFactory = JavaPsiFacade.getElementFactory(mProject);
+
         dialog.show();
         if (dialog.isOK()) {
             createModel(dialog.getFileName(), dialog.getFieldsList());
@@ -38,22 +42,29 @@ public class GenerateModelAction extends AnAction {
 
     private void createModel(String fileName, ArrayList<ModelFieldInfoRow> fields) {
         String classText = "public class " + fileName + " {\n}";
-        PsiFile newFile = PsiFileFactory.getInstance(mProject).createFileFromText(fileName + ".java", StdFileTypes.JAVA, classText);
+        String completeFileName = fileName + ".java";
+        PsiFile newFile = PsiFileFactory.getInstance(mProject).createFileFromText(completeFileName, StdFileTypes.JAVA, classText);
         PsiDirectory baseDir = PsiManager.getInstance(mProject).findDirectory(mProject.getBaseDir());
         PsiDirectory destinationDir = findSubDirectory(baseDir, "app.src.main.java.com.contextlogic.wish.api.model");
         PsiClass modelClass = getChildClass(newFile);
 
         generateFields(modelClass, fields);
         generateGetters(modelClass);
-        generateConstructor(modelClass, "protected", new String[] {TYPE_Parcel + "in"}, null);
+        generateConstructor(modelClass, "protected", new String[] {TYPE_Parcel + " in"}, null);
+        generateDescribeContents(modelClass);
 
+        JavaCodeStyleManager.getInstance(mProject).shortenClassReferences(modelClass);
         CodeStyleManager.getInstance(mProject).reformat(modelClass);
         new WriteCommandAction.Simple(mProject, newFile) {
             @Override
             protected void run() throws Throwable {
+                // Must handle file already exists case
                 destinationDir.add(newFile);
             }
         }.execute();
+
+        OpenFileDescriptor fileDescriptor = new OpenFileDescriptor(mProject, destinationDir.findFile(completeFileName).getVirtualFile(), 100);
+        fileDescriptor.navigateInEditor(mProject, true);
     }
 
     private PsiDirectory findSubDirectory(PsiDirectory baseDir, String path) {
@@ -78,9 +89,8 @@ public class GenerateModelAction extends AnAction {
                 return;
             }
             String fieldString = "private " + fieldInfo.getFieldType() + " " + fieldInfo.getFieldName() + ";";
-            PsiField psiField = JavaPsiFacade.getElementFactory(mProject).createFieldFromText(fieldString, psiClass);
-            PsiElement element = psiClass.add(psiField);
-            JavaCodeStyleManager.getInstance(mProject).shortenClassReferences(element);
+            PsiField psiField = mElementFactory.createFieldFromText(fieldString, psiClass);
+            psiClass.add(psiField);
         }
     }
 
@@ -105,13 +115,22 @@ public class GenerateModelAction extends AnAction {
         }
         builder.append("{}");
         PsiMethod cons = createPsiMethod(builder.toString(), psiClass);
-        JavaCodeStyleManager.getInstance(mProject).shortenClassReferences(cons);
         psiClass.add(cons);
+        generateImplements(psiClass, TYPE_Parcelable.trim());
+    }
+
+    private void generateImplements(PsiClass psiClass, String type) {
+        PsiJavaCodeReferenceElement referenceElement = mElementFactory.createReferenceFromText(type, psiClass);
+        psiClass.getImplementsList().add(referenceElement);
+    }
+
+    private void generateDescribeContents(PsiClass psiClass) {
+        String methodString = "@Override public int describeContents() { return 0; }";
+        psiClass.add(createPsiMethod(methodString, psiClass));
     }
 
     private PsiMethod createPsiMethod(String methodString, PsiClass psiClass) {
-        PsiElementFactory elementFactory = JavaPsiFacade.getElementFactory(mProject);
-        PsiMethod method = elementFactory.createMethodFromText(methodString.toString(), psiClass);
+        PsiMethod method = mElementFactory.createMethodFromText(methodString.toString(), psiClass);
         return method;
     }
 }
