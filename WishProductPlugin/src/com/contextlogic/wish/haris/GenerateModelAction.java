@@ -59,7 +59,7 @@ public class GenerateModelAction extends AnAction {
     private PsiDirectory findSubDirectory(PsiDirectory baseDir, String path) {
         PsiDirectory destinationDir = baseDir;
         for (String dirName: path.split("\\.")) {
-            destinationDir = baseDir.findSubdirectory(dirName);
+            destinationDir = destinationDir.findSubdirectory(dirName);
             if (destinationDir == null) {
                 return null;
             }
@@ -111,7 +111,6 @@ public class GenerateModelAction extends AnAction {
 
     private PsiMethod createPsiMethod(String methodString, PsiClass psiClass) {
         PsiElementFactory elementFactory = JavaPsiFacade.getElementFactory(mProject);
-//        elementFactory.createConstructor()
         PsiMethod method = elementFactory.createMethodFromText(methodString.toString(), psiClass);
         return method;
     }
