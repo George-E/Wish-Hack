@@ -26,6 +26,8 @@ public class GenerateModelAction extends AnAction {
     private static String TYPE_Parcel = "android.os.Parcel";
     private static String TYPE_Parcelable = "android.os.Parcelable";
 
+    private final PrimitiveTypeParser mParser = new PrimitiveTypeParser();
+
     private Project mProject;
     private PsiElementFactory mElementFactory;
 
@@ -50,10 +52,12 @@ public class GenerateModelAction extends AnAction {
         PsiDirectory destinationDir = findSubDirectory(baseDir, "app.src.main.java.com.contextlogic.wish.api.model");
         PsiClass modelClass = getChildClass(newFile);
 
-        ArrayList<PsiField> psiFields = generateFields(modelClass, fields);
+        generateImplements(modelClass, TYPE_Parcelable);
+        generateFields(modelClass, fields);
         generateGetters(modelClass);
-        generateConstructorFromParcel(modelClass, psiFields, "in");
+        generateConstructorFromParcel(modelClass, "in");
         generateDescribeContents(modelClass);
+        generateWriteToParcel(modelClass, "dest");
 
         JavaCodeStyleManager.getInstance(mProject).shortenClassReferences(modelClass);
         CodeStyleManager.getInstance(mProject).reformat(modelClass);
@@ -85,50 +89,44 @@ public class GenerateModelAction extends AnAction {
         return psiClass;
     }
 
-    private ArrayList<PsiField> generateFields(PsiClass psiClass, ArrayList<ModelFieldInfoRow> rows) {
-        ArrayList<PsiField> psiFields = new ArrayList<>();
+    private void generateFields(PsiClass psiClass, ArrayList<ModelFieldInfoRow> rows) {
         for (ModelFieldInfoRow fieldInfo : rows) {
             if (!fieldInfo.isValidField()) {
                 break;
             }
             String fieldString = "private " + fieldInfo.getFieldType() + " " + fieldInfo.getFieldName() + ";";
             PsiField psiField = mElementFactory.createFieldFromText(fieldString, psiClass);
-            psiFields.add(psiField);
             psiClass.add(psiField);
         }
-        return psiFields;
     }
 
     private void generateGetters(PsiClass psiClass) {
-        PsiField[] fields = psiClass.getAllFields();
+        PsiField[] fields = psiClass.getFields();
         for (PsiField field: fields) {
             String formattedMethodName = Util.getFormattedName(field.getName());
             String signature = "public " + field.getType().getPresentableText() + " get" + formattedMethodName + "()";
             StringBuilder builder = new StringBuilder(signature);
             builder.append("\n{ return " + field.getName() + ";\n}");
-            PsiMethod method = createPsiMethod(builder.toString(), psiClass);
+            PsiMethod method = createPsiMethod(builder, psiClass);
             psiClass.add(method);
         }
     }
 
-    private void generateConstructorFromParcel(PsiClass psiClass, ArrayList<PsiField> psiFields, String parcelName) {
+    private void generateConstructorFromParcel(PsiClass psiClass, String source) {
+        PsiField[] psiFields = psiClass.getFields();
         StringBuilder builder = new StringBuilder("protected " + psiClass.getName());
-        builder.append("(" + TYPE_Parcel + " " + parcelName + ") {");
+        builder.append("(" + TYPE_Parcel + " " + source + ") {");
 
-        PrimitiveTypeParser parser = new PrimitiveTypeParser();
         for (PsiField field: psiFields) {
-            PrimitiveType parcelableType = parser.getParser(field);
+            PrimitiveType parcelableType = mParser.getParcelableType(field);
             if (parcelableType != null) {
-                builder.append(String.format("%s = %s;", field.getName(), parcelableType.getReadValue(parcelName)));
+                builder.append(String.format("%s = %s;", field.getName(), parcelableType.getReadValue(source)));
             }
         }
 
         builder.append("}");
-        PsiMethod cons = createPsiMethod(builder.toString(), psiClass);
+        PsiMethod cons = createPsiMethod(builder, psiClass);
         psiClass.add(cons);
-
-        // Not relevant here
-        generateImplements(psiClass, TYPE_Parcelable);
     }
 
     private void generateImplements(PsiClass psiClass, String type) {
@@ -141,8 +139,29 @@ public class GenerateModelAction extends AnAction {
         psiClass.add(createPsiMethod(methodString, psiClass));
     }
 
+    private void generateWriteToParcel(PsiClass psiClass, String dest) {
+        PsiField[] psiFields = psiClass.getFields();
+        String signature = String.format("@Override public void writeToParcel(%s %s, int flags)", TYPE_Parcel, dest);
+        StringBuilder builder = new StringBuilder(signature);
+        builder.append("{");
+        for (PsiField field: psiFields) {
+            PrimitiveType parcelableType = mParser.getParcelableType(field);
+            if (parcelableType != null) {
+                builder.append(parcelableType.getWriteValue(dest, field, 0) + ";");
+            }
+        }
+        builder.append("}");
+        PsiMethod writeToParcelMethod = createPsiMethod(builder, psiClass);
+        psiClass.add(writeToParcelMethod);
+    }
+
     private PsiMethod createPsiMethod(String methodString, PsiClass psiClass) {
-        PsiMethod method = mElementFactory.createMethodFromText(methodString.toString(), psiClass);
+        PsiMethod method = mElementFactory.createMethodFromText(methodString, psiClass);
+        return method;
+    }
+
+    private PsiMethod createPsiMethod(StringBuilder builder, PsiClass psiClass) {
+        PsiMethod method = mElementFactory.createMethodFromText(builder.toString(), psiClass);
         return method;
     }
 }

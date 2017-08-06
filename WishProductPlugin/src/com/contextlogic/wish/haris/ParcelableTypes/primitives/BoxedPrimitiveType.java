@@ -17,7 +17,7 @@ public class BoxedPrimitiveType extends PrimitiveType {
     }
 
     @Override
-    public String getWriteValue(String source, PsiField field, int flag) {
-        return String.format("%s.writeValue(%s)", source, field.getName());
+    public String getWriteValue(String dest, PsiField field, int flag) {
+        return String.format("%s.writeValue(%s)", dest, field.getName());
     }
 }

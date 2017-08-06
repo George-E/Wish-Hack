@@ -14,5 +14,5 @@ public abstract class ParcelableElementType {
     }
 
     public abstract String getReadValue(String source);
-    public abstract String getWriteValue(String source, PsiField field, int flag);
+    public abstract String getWriteValue(String dest, PsiField field, int flag);
 }

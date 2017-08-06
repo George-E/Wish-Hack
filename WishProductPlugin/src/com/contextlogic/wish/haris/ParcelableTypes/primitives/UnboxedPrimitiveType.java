@@ -18,7 +18,7 @@ public class UnboxedPrimitiveType extends PrimitiveType {
     }
 
     @Override
-    public String getWriteValue(String source, PsiField psiField, int flag) {
-        return String.format("%s.write%s(%s)", source, mType, psiField.getName());
+    public String getWriteValue(String dest, PsiField psiField, int flag) {
+        return String.format("%s.write%s(%s)", dest, Util.capitalize(mType), psiField.getName());
     }
 }

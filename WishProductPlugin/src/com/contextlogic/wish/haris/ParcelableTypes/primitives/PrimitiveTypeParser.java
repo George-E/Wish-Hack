@@ -32,7 +32,7 @@ public class PrimitiveTypeParser {
         supportedTypes.put(CommonClassNames.JAVA_LANG_BOOLEAN, new BoxedPrimitiveType(CommonClassNames.JAVA_LANG_BOOLEAN));
     }
 
-    public PrimitiveType getParser(PsiField field) {
+    public PrimitiveType getParcelableType(PsiField field) {
         return supportedTypes.get(field.getType().getCanonicalText());
     }
 }
