@@ -25,6 +25,7 @@ public class GenerateModelAction extends AnAction {
     private static String TYPE_ParseException = "java.text.ParseException";
     private static String TYPE_Parcel = "android.os.Parcel";
     private static String TYPE_Parcelable = "android.os.Parcelable";
+    private static String TYPE_Parcelable_Creator = "android.os.Parcelable.Creator";
 
     private final PrimitiveTypeParser mParser = new PrimitiveTypeParser();
 
@@ -58,9 +59,10 @@ public class GenerateModelAction extends AnAction {
         generateConstructorFromParcel(modelClass, "in");
         generateDescribeContents(modelClass);
         generateWriteToParcel(modelClass, "dest");
+        generateCreator(modelClass);
 
         JavaCodeStyleManager.getInstance(mProject).shortenClassReferences(modelClass);
-        CodeStyleManager.getInstance(mProject).reformat(modelClass);
+        CodeStyleManager.getInstance(mProject).reformat(newFile);
         new WriteCommandAction.Simple(mProject, newFile) {
             @Override
             protected void run() throws Throwable {
@@ -153,6 +155,20 @@ public class GenerateModelAction extends AnAction {
         builder.append("}");
         PsiMethod writeToParcelMethod = createPsiMethod(builder, psiClass);
         psiClass.add(writeToParcelMethod);
+    }
+
+    private void generateCreator(PsiClass psiClass) {
+        String className = psiClass.getName();
+        String creator = "public static final " + TYPE_Parcelable_Creator + "<" + className + "> CREATOR =";
+        StringBuilder builder = new StringBuilder(creator);
+        String createFromParcelMethodString =
+                String.format("@Override public %s createFromParcel(%s in) { return new %s(in); }", className, TYPE_Parcel, className);
+        String newArrayMethodString =
+                String.format("@Override public %s[] newArray(int size) { return new %s[size]; }", className, className);
+        String creatorInstanceString = String.format("new %s<%s>() { %s %s };", TYPE_Parcelable_Creator, className, createFromParcelMethodString, newArrayMethodString);
+        builder.append(creatorInstanceString);
+        PsiField creatorField = mElementFactory.createFieldFromText(builder.toString(), psiClass);
+        psiClass.addBefore(creatorField, psiClass.getLastChild());
     }
 
     private PsiMethod createPsiMethod(String methodString, PsiClass psiClass) {
