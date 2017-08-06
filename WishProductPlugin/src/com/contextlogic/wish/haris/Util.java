@@ -22,4 +22,8 @@ public class Util {
             return Character.toUpperCase(s.charAt(0)) + s.substring(1);
         }
     }
+
+    public static String capitalize(String s) {
+        return Character.toUpperCase(s.charAt(0)) + s.substring(1);
+    }
 }

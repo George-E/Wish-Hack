@@ -1,5 +1,7 @@
 package com.contextlogic.wish.haris;
 
+import com.contextlogic.wish.haris.ParcelableTypes.primitives.PrimitiveType;
+import com.contextlogic.wish.haris.ParcelableTypes.primitives.PrimitiveTypeParser;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.command.WriteCommandAction;
@@ -21,8 +23,8 @@ public class GenerateModelAction extends AnAction {
     private static String TYPE_JSONException = "org.json.JSONException";
     private static String TYPE_JSONObject = "org.json.JSONObject";
     private static String TYPE_ParseException = "java.text.ParseException";
-    private static String TYPE_Parcel = " android.os.Parcel ";
-    private static String TYPE_Parcelable = " android.os.Parcelable ";
+    private static String TYPE_Parcel = "android.os.Parcel";
+    private static String TYPE_Parcelable = "android.os.Parcelable";
 
     private Project mProject;
     private PsiElementFactory mElementFactory;
@@ -48,9 +50,9 @@ public class GenerateModelAction extends AnAction {
         PsiDirectory destinationDir = findSubDirectory(baseDir, "app.src.main.java.com.contextlogic.wish.api.model");
         PsiClass modelClass = getChildClass(newFile);
 
-        generateFields(modelClass, fields);
+        ArrayList<PsiField> psiFields = generateFields(modelClass, fields);
         generateGetters(modelClass);
-        generateConstructor(modelClass, "protected", new String[] {TYPE_Parcel + " in"}, null);
+        generateConstructorFromParcel(modelClass, psiFields, "in");
         generateDescribeContents(modelClass);
 
         JavaCodeStyleManager.getInstance(mProject).shortenClassReferences(modelClass);
@@ -83,15 +85,18 @@ public class GenerateModelAction extends AnAction {
         return psiClass;
     }
 
-    private void generateFields(PsiClass psiClass, ArrayList<ModelFieldInfoRow> rows) {
+    private ArrayList<PsiField> generateFields(PsiClass psiClass, ArrayList<ModelFieldInfoRow> rows) {
+        ArrayList<PsiField> psiFields = new ArrayList<>();
         for (ModelFieldInfoRow fieldInfo : rows) {
             if (!fieldInfo.isValidField()) {
-                return;
+                break;
             }
             String fieldString = "private " + fieldInfo.getFieldType() + " " + fieldInfo.getFieldName() + ";";
             PsiField psiField = mElementFactory.createFieldFromText(fieldString, psiClass);
+            psiFields.add(psiField);
             psiClass.add(psiField);
         }
+        return psiFields;
     }
 
     private void generateGetters(PsiClass psiClass) {
@@ -106,17 +111,24 @@ public class GenerateModelAction extends AnAction {
         }
     }
 
-    private void generateConstructor(PsiClass psiClass, String accessModifier, String[] argsList, String extra) {
-        String args = String.join(",", argsList);
-        StringBuilder builder = new StringBuilder(accessModifier + " " + psiClass.getName());
-        builder.append("(" + args + ") ");
-        if (extra != null) {
-            builder.append(extra);
+    private void generateConstructorFromParcel(PsiClass psiClass, ArrayList<PsiField> psiFields, String parcelName) {
+        StringBuilder builder = new StringBuilder("protected " + psiClass.getName());
+        builder.append("(" + TYPE_Parcel + " " + parcelName + ") {");
+
+        PrimitiveTypeParser parser = new PrimitiveTypeParser();
+        for (PsiField field: psiFields) {
+            PrimitiveType parcelableType = parser.getParser(field);
+            if (parcelableType != null) {
+                builder.append(String.format("%s = %s;", field.getName(), parcelableType.getReadValue(parcelName)));
+            }
         }
-        builder.append("{}");
+
+        builder.append("}");
         PsiMethod cons = createPsiMethod(builder.toString(), psiClass);
         psiClass.add(cons);
-        generateImplements(psiClass, TYPE_Parcelable.trim());
+
+        // Not relevant here
+        generateImplements(psiClass, TYPE_Parcelable);
     }
 
     private void generateImplements(PsiClass psiClass, String type) {
