@@ -1,7 +1,5 @@
 package com.contextlogic.wish.haris;
 
-import com.contextlogic.wish.ViewUtil;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -17,15 +15,15 @@ public class ModelFieldInfoRow extends JPanel {
     private JTextField mJsonFieldName;
 
     public String getFieldType() {
-        return ViewUtil.extractTextFieldValue(mFieldType);
+        return Util.extractTextFieldValue(mFieldType);
     }
 
     public String getFieldName() {
-        return ViewUtil.extractTextFieldValue(mFieldName);
+        return Util.extractTextFieldValue(mFieldName);
     }
 
     public String getJsonFieldName() {
-        return ViewUtil.extractTextFieldValue(mJsonFieldName);
+        return Util.extractTextFieldValue(mJsonFieldName);
     }
 
     public boolean isValidField() {
