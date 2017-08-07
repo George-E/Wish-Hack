@@ -19,7 +19,7 @@ public class ModelFieldTable extends JPanel {
         ModelFieldTableModel tableModel = new ModelFieldTableModel(startingRows);
         mTable = new JTable(tableModel);
         mTable.setRowHeight(30);
-        mTable.setGridColor(Color.BLACK);
+        mTable.setGridColor(Color.GRAY);
 
         ArrayList<String> existingModels = ModelUtil.getExistingModelNames(project);
 

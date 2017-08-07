@@ -49,6 +49,7 @@ public class GenerateModelHandler extends BaseToolHandler {
     @Override
     public void showDialog() {
         mDialog = new GenerateModelDialog(mParent, mEvent);
+        mElementFactory = JavaPsiFacade.getElementFactory(mProject);
         mDialog.show();
         if (mDialog.isOK()) {
             createModel(mDialog.getFileName(), mDialog.getFieldsList());

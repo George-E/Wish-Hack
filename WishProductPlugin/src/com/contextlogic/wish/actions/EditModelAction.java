@@ -7,12 +7,14 @@ import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.GlobalSearchScopesCore;
+import com.intellij.psi.util.PsiTreeUtil;
 
 public class EditModelAction extends AnAction {
 
@@ -75,7 +77,7 @@ public class EditModelAction extends AnAction {
             presentation.setEnabledAndVisible(isApplicableFile(psiFile));
             return;
         } else if (filesAndDirs != null) {
-            presentation.setEnabledAndVisible(false);
+            presentation.setEnabledAndVisible(mayHaveApplicableFiles(event.getProject(), filesAndDirs));
             return;
         }
 
@@ -127,11 +129,13 @@ public class EditModelAction extends AnAction {
             return false;
         }
 
-        /*final Module module = ModuleUtilCore.findModuleForPsiElement(psiFile);
-        if (module == null) {
-            return false;
-        }*/
 
-        return true;
+        PsiClass psiClass = PsiTreeUtil.findChildOfType(psiFile, PsiClass.class);
+        if (psiClass == null  || psiClass.getSuperClass() == null) {
+            return false;
+        }
+        //System.out.println(psiClass.getName());
+        //System.out.println(psiClass.getSuperClass().getName());
+        return psiClass.getSuperClass().getName().equals("BaseModel");
     }
 }

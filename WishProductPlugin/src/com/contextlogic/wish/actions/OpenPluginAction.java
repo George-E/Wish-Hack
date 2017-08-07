@@ -5,8 +5,6 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.util.IconLoader;
 
-import javax.swing.*;
-
 public class OpenPluginAction extends AnAction {
 
     public OpenPluginAction() {
