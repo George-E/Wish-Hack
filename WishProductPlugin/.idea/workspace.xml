@@ -24,25 +24,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="OpenPluginAction.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/contextlogic/wish/home/OpenPluginAction.java">
+      <file leaf-file-name="plugin.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+            <state relative-caret-position="570">
+              <caret line="38" column="50" lean-forward="false" selection-start-line="38" selection-start-column="30" selection-end-line="38" selection-end-column="50" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PluginHomeDialog.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/contextlogic/wish/home/PluginHomeDialog.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="303">
-              <caret line="38" column="46" lean-forward="true" selection-start-line="38" selection-start-column="46" selection-end-line="38" selection-end-column="46" />
-              <folding>
-                <marker date="1502075370000" expanded="false" signature="1656:1667" ph=" { " />
-                <marker date="1502075370000" expanded="false" signature="1689:1695" ph=" }" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -50,26 +37,26 @@
       <file leaf-file-name="ModelFieldTable.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/contextlogic/wish/tool_dialogs/ModelFieldTable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="66" column="81" lean-forward="false" selection-start-line="66" selection-start-column="81" selection-end-line="66" selection-end-column="81" />
+            <state relative-caret-position="371">
+              <caret line="51" column="32" lean-forward="true" selection-start-line="51" selection-start-column="32" selection-end-line="51" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1934#1935#0" expanded="true" />
-                <element signature="e#2026#2027#0" expanded="true" />
-                <element signature="e#2066#2067#0" expanded="true" />
-                <element signature="e#2107#2108#0" expanded="true" />
-                <element signature="e#2146#2147#0" expanded="true" />
-                <element signature="e#2187#2188#0" expanded="true" />
-                <element signature="e#2224#2225#0" expanded="true" />
-                <element signature="e#2263#2264#0" expanded="true" />
-                <element signature="e#2317#2318#0" expanded="true" />
-                <element signature="e#2368#2369#0" expanded="true" />
-                <element signature="e#2421#2422#0" expanded="true" />
-                <element signature="e#2472#2473#0" expanded="true" />
-                <element signature="e#2521#2522#0" expanded="true" />
-                <element signature="e#2568#2569#0" expanded="true" />
-                <element signature="e#2815#2816#0" expanded="true" />
-                <element signature="e#2870#2871#0" expanded="true" />
+                <element signature="e#1991#1992#0" expanded="true" />
+                <element signature="e#2083#2084#0" expanded="true" />
+                <element signature="e#2123#2124#0" expanded="true" />
+                <element signature="e#2164#2165#0" expanded="true" />
+                <element signature="e#2203#2204#0" expanded="true" />
+                <element signature="e#2244#2245#0" expanded="true" />
+                <element signature="e#2281#2282#0" expanded="true" />
+                <element signature="e#2320#2321#0" expanded="true" />
+                <element signature="e#2374#2375#0" expanded="true" />
+                <element signature="e#2425#2426#0" expanded="true" />
+                <element signature="e#2478#2479#0" expanded="true" />
+                <element signature="e#2529#2530#0" expanded="true" />
+                <element signature="e#2578#2579#0" expanded="true" />
+                <element signature="e#2625#2626#0" expanded="true" />
+                <element signature="e#2906#2907#0" expanded="true" />
+                <element signature="e#2971#2972#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -78,8 +65,8 @@
       <file leaf-file-name="GenerateModelDialog.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/contextlogic/wish/tool_dialogs/GenerateModelDialog.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="303">
-              <caret line="37" column="13" lean-forward="false" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
+            <state relative-caret-position="585">
+              <caret line="43" column="37" lean-forward="false" selection-start-line="43" selection-start-column="37" selection-end-line="43" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -87,11 +74,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GenerateModelHandler.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GenerateModelHandler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/contextlogic/wish/tool_handlers/GenerateModelHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="859">
-              <caret line="104" column="22" lean-forward="true" selection-start-line="104" selection-start-column="22" selection-end-line="104" selection-end-column="22" />
+            <state relative-caret-position="354">
+              <caret line="57" column="100" lean-forward="true" selection-start-line="57" selection-start-column="100" selection-end-line="57" selection-end-column="117" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EditModelAction.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/contextlogic/wish/actions/EditModelAction.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="400">
+              <caret line="92" column="46" lean-forward="false" selection-start-line="92" selection-start-column="46" selection-end-line="92" selection-end-column="46" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OpenPluginAction.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/contextlogic/wish/actions/OpenPluginAction.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="15" column="8" lean-forward="true" selection-start-line="15" selection-start-column="8" selection-end-line="17" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -102,9 +109,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Action" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="Action" />
       </list>
     </option>
   </component>
@@ -123,6 +130,10 @@
       <find>PrimitiveType</find>
       <find>mProject</find>
       <find>geisa</find>
+      <find>getMode</find>
+      <find>isApplicableFile</find>
+      <find>project</find>
+      <find>Virtual</find>
     </findStrings>
   </component>
   <component name="GradleLocalSettings">
@@ -133,10 +144,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/contextlogic/wish/ImageCompressionAction.java" />
-        <option value="$PROJECT_DIR$/src/com/contextlogic/wish/BaseToolDialogHandler.java" />
-        <option value="$PROJECT_DIR$/src/com/contextlogic/wish/TinyPNGDialog.java" />
-        <option value="$PROJECT_DIR$/src/com/contextlogic/wish/PluginHomeDialog.java" />
         <option value="$PROJECT_DIR$/src/com/contextlogic/wish/ImageCompression.java" />
         <option value="$PROJECT_DIR$/src/com/contextlogic/wish/AddImageHandler.java" />
         <option value="$PROJECT_DIR$/src/com/contextlogic/wish/BaseToolDialog.java" />
@@ -170,7 +177,6 @@
         <option value="$PROJECT_DIR$/src/com/contextlogic/wish/haris/FieldTable.java" />
         <option value="$PROJECT_DIR$/src/com/contextlogic/wish/BaseErrorDialog.java" />
         <option value="$PROJECT_DIR$/src/com/contextlogic/wish/tool_dialogs/GenerateModelHandler.java" />
-        <option value="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
         <option value="$PROJECT_DIR$/src/com/contextlogic/wish/tool_dialogs/BaseToolDialog.java" />
         <option value="$PROJECT_DIR$/src/com/contextlogic/wish/tool_dialogs/AddImageDialog.java" />
         <option value="$PROJECT_DIR$/src/com/contextlogic/wish/home/OpenPluginAction.java" />
@@ -181,9 +187,14 @@
         <option value="$PROJECT_DIR$/src/com/contextlogic/wish/home/PluginHomeDialog.java" />
         <option value="$PROJECT_DIR$/src/com/contextlogic/wish/home/GenerateModelDialog.java" />
         <option value="$PROJECT_DIR$/src/com/contextlogic/wish/tool_dialogs/FieldTable.java" />
-        <option value="$PROJECT_DIR$/src/com/contextlogic/wish/tool_dialogs/GenerateModelDialog.java" />
         <option value="$PROJECT_DIR$/src/com/contextlogic/wish/tool_handlers/GenerateModelHandler.java" />
         <option value="$PROJECT_DIR$/src/com/contextlogic/wish/tool_dialogs/ModelFieldTable.java" />
+        <option value="$PROJECT_DIR$/src/com/contextlogic/wish/tool_dialogs/GenerateModelDialog.java" />
+        <option value="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
+        <option value="$PROJECT_DIR$/src/com/contextlogic/wish/Testing.java" />
+        <option value="$PROJECT_DIR$/src/com/contextlogic/wish/EditModelAction.java" />
+        <option value="$PROJECT_DIR$/src/com/contextlogic/wish/actions/OpenPluginAction.java" />
+        <option value="$PROJECT_DIR$/src/com/contextlogic/wish/actions/EditModelAction.java" />
       </list>
     </option>
   </component>
@@ -281,22 +292,6 @@
             <path>
               <item name="Root" type="cbb8eebc:String" user="Root" />
               <item name="WishProductPlugin" type="cbb8eebc:String" user="WishProductPlugin" />
-              <item name=".idea" type="cbb8eebc:String" user=".idea" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="WishProductPlugin" type="cbb8eebc:String" user="WishProductPlugin" />
-              <item name="resources" type="cbb8eebc:String" user="resources" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="WishProductPlugin" type="cbb8eebc:String" user="WishProductPlugin" />
-              <item name="resources" type="cbb8eebc:String" user="resources" />
-              <item name="META-INF" type="cbb8eebc:String" user="META-INF" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="WishProductPlugin" type="cbb8eebc:String" user="WishProductPlugin" />
               <item name="src" type="cbb8eebc:String" user="src" />
             </path>
             <path>
@@ -310,14 +305,7 @@
               <item name="WishProductPlugin" type="cbb8eebc:String" user="WishProductPlugin" />
               <item name="src" type="cbb8eebc:String" user="src" />
               <item name="com/contextlogic/wish" type="cbb8eebc:String" user="com/contextlogic/wish" />
-              <item name="home" type="cbb8eebc:String" user="home" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="WishProductPlugin" type="cbb8eebc:String" user="WishProductPlugin" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-              <item name="com/contextlogic/wish" type="cbb8eebc:String" user="com/contextlogic/wish" />
-              <item name="tool_dialogs" type="cbb8eebc:String" user="tool_dialogs" />
+              <item name="actions" type="cbb8eebc:String" user="actions" />
             </path>
             <path>
               <item name="Root" type="cbb8eebc:String" user="Root" />
@@ -980,11 +968,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/t.form" />
-    <entry file="file://$PROJECT_DIR$/src/t.java" />
-    <entry file="file://$PROJECT_DIR$/src/test.form" />
-    <entry file="file://$PROJECT_DIR$/src/test.java" />
-    <entry file="file://$PROJECT_DIR$/../../IntelliJSrc/community/platform/util/src/com/intellij/CommonBundle.java" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home/src.zip!/javax/swing/Action.java" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home/src.zip!/java/io/File.java" />
     <entry file="file://$PROJECT_DIR$/src/com/contextlogic/wish/icons/PluginIcons.java" />
@@ -1181,14 +1164,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/contextlogic/wish/haris/GenerateModelAction.java" />
-    <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" column="13" lean-forward="false" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/contextlogic/wish/tool_dialogs/AddImageDialog.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1200,14 +1175,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="7" column="22" lean-forward="false" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/contextlogic/wish/home/OpenPluginAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1242,10 +1209,54 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/contextlogic/wish/tool_dialogs/ModelFieldTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="371">
+          <caret line="51" column="32" lean-forward="true" selection-start-line="51" selection-start-column="32" selection-end-line="51" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1991#1992#0" expanded="true" />
+            <element signature="e#2083#2084#0" expanded="true" />
+            <element signature="e#2123#2124#0" expanded="true" />
+            <element signature="e#2164#2165#0" expanded="true" />
+            <element signature="e#2203#2204#0" expanded="true" />
+            <element signature="e#2244#2245#0" expanded="true" />
+            <element signature="e#2281#2282#0" expanded="true" />
+            <element signature="e#2320#2321#0" expanded="true" />
+            <element signature="e#2374#2375#0" expanded="true" />
+            <element signature="e#2425#2426#0" expanded="true" />
+            <element signature="e#2478#2479#0" expanded="true" />
+            <element signature="e#2529#2530#0" expanded="true" />
+            <element signature="e#2578#2579#0" expanded="true" />
+            <element signature="e#2625#2626#0" expanded="true" />
+            <element signature="e#2906#2907#0" expanded="true" />
+            <element signature="e#2971#2972#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/contextlogic/wish/tool_dialogs/GenerateModelDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="43" column="37" lean-forward="false" selection-start-line="43" selection-start-column="37" selection-end-line="43" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/idea.jar!/META-INF/dvcs.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-126">
+          <caret line="16" column="4" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/contextlogic/wish/home/PluginHomeDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
-          <caret line="38" column="46" lean-forward="true" selection-start-line="38" selection-start-column="46" selection-end-line="38" selection-end-column="46" />
+        <state relative-caret-position="340">
+          <caret line="38" column="71" lean-forward="false" selection-start-line="38" selection-start-column="38" selection-end-line="38" selection-end-column="71" />
           <folding>
             <marker date="1502075370000" expanded="false" signature="1656:1667" ph=" { " />
             <marker date="1502075370000" expanded="false" signature="1689:1695" ph=" }" />
@@ -1253,46 +1264,61 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/contextlogic/wish/tool_dialogs/GenerateModelDialog.java">
+    <entry file="file://$PROJECT_DIR$/../../IntelliJSrc/community/platform/editor-ui-api/src/com/intellij/openapi/actionSystem/DataContext.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
-          <caret line="37" column="13" lean-forward="false" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
+        <state relative-caret-position="273">
+          <caret line="39" column="9" lean-forward="false" selection-start-line="39" selection-start-column="9" selection-end-line="39" selection-end-column="9" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#2114#2115#0" expanded="false" />
+            <element signature="e#2156#2157#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/contextlogic/wish/tool_dialogs/ModelFieldTable.java">
+    <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="66" column="81" lean-forward="false" selection-start-line="66" selection-start-column="81" selection-end-line="66" selection-end-column="81" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1934#1935#0" expanded="true" />
-            <element signature="e#2026#2027#0" expanded="true" />
-            <element signature="e#2066#2067#0" expanded="true" />
-            <element signature="e#2107#2108#0" expanded="true" />
-            <element signature="e#2146#2147#0" expanded="true" />
-            <element signature="e#2187#2188#0" expanded="true" />
-            <element signature="e#2224#2225#0" expanded="true" />
-            <element signature="e#2263#2264#0" expanded="true" />
-            <element signature="e#2317#2318#0" expanded="true" />
-            <element signature="e#2368#2369#0" expanded="true" />
-            <element signature="e#2421#2422#0" expanded="true" />
-            <element signature="e#2472#2473#0" expanded="true" />
-            <element signature="e#2521#2522#0" expanded="true" />
-            <element signature="e#2568#2569#0" expanded="true" />
-            <element signature="e#2815#2816#0" expanded="true" />
-            <element signature="e#2870#2871#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="570">
+          <caret line="38" column="50" lean-forward="false" selection-start-line="38" selection-start-column="30" selection-end-line="38" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../IntelliJSrc/community/platform/editor-ui-api/src/com/intellij/openapi/actionSystem/AnActionEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="190" column="21" lean-forward="false" selection-start-line="190" selection-start-column="21" selection-end-line="190" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/contextlogic/wish/tool_handlers/GenerateModelHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="859">
-          <caret line="104" column="22" lean-forward="true" selection-start-line="104" selection-start-column="22" selection-end-line="104" selection-end-column="22" />
+        <state relative-caret-position="354">
+          <caret line="57" column="100" lean-forward="true" selection-start-line="57" selection-start-column="100" selection-end-line="57" selection-end-column="117" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/contextlogic/wish/actions/OpenPluginAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="15" column="8" lean-forward="true" selection-start-line="15" selection-start-column="8" selection-end-line="17" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../IntelliJSrc/community/platform/core-api/src/com/intellij/psi/PsiDocumentManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="212">
+          <caret line="191" column="69" lean-forward="false" selection-start-line="191" selection-start-column="62" selection-end-line="191" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/contextlogic/wish/actions/EditModelAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="92" column="46" lean-forward="false" selection-start-line="92" selection-start-column="46" selection-end-line="92" selection-end-column="46" />
           <folding />
         </state>
       </provider>

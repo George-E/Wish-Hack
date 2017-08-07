@@ -15,15 +15,12 @@ public class GenerateModelDialog extends BaseToolDialog {
 
     private static int DEFAULT_ROWS = 2;
 
-    private JPanel mMainPanel = new JPanel();
-
     private LabeledComponent<JTextField> mModelNameTextField;
     private ModelFieldTable mModelFieldTable;
 
     public GenerateModelDialog(Component parent, AnActionEvent event) {
         super(parent, event);
         setTitle("Generate Model");
-        mMainPanel = new JPanel();
         init();
     }
 
@@ -32,25 +29,32 @@ public class GenerateModelDialog extends BaseToolDialog {
     }
 
     public ArrayList<ModelFieldTable.ModelField> getFieldsList() {
-        return mModelFieldTable.getDataRows();
+        return mModelFieldTable.getFieldsList();
     }
 
     @Nullable
     @Override
     protected JComponent createCenterPanel() {
-        mMainPanel.setLayout(new BoxLayout(mMainPanel, BoxLayout.Y_AXIS));
-        mMainPanel.setPreferredSize(new Dimension(400, 300));
-        mModelNameTextField = createLabeledTextField("Model Name", 30);
-
-        mModelFieldTable = new ModelFieldTable();
-        mMainPanel.add(mModelNameTextField);
-        mMainPanel.add(mModelFieldTable);
-        return mMainPanel;
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setPreferredSize(new Dimension(400, 300));
+        mModelNameTextField = LabeledComponent.create(new JTextField(), "Model Name");
+        mModelFieldTable = new ModelFieldTable(createStartingRows());
+        mainPanel.add(mModelNameTextField);
+        addSpaceToPanel(mainPanel, 10);
+        mainPanel.add(mModelFieldTable);
+        return mainPanel;
     }
 
-    private LabeledComponent<JTextField> createLabeledTextField(String label, int columns) {
-        JTextField textField = new JTextField(columns);
-        LabeledComponent<JTextField> labeledTextField = LabeledComponent.create(textField, label);
-        return labeledTextField;
+    private ArrayList<ModelFieldTable.ModelField> createStartingRows() {
+        ArrayList<ModelFieldTable.ModelField> startingRows = new ArrayList<>();
+        for (int i =0; i< DEFAULT_ROWS; i++) {
+            startingRows.add(new ModelFieldTable.ModelField());
+        }
+        return startingRows;
+    }
+
+    private void addSpaceToPanel(JPanel panel, int pixels) {
+        panel.add(Box.createRigidArea(new Dimension(pixels,pixels)));
     }
 }

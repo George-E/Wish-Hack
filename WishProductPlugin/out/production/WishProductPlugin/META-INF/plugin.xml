@@ -34,6 +34,9 @@
             description="Open a list of Wish Product developer tools">
       <add-to-group group-id="MainToolBar" anchor="last"/>
     </action>
+    <action id="Testing" class="com.contextlogic.wish.Testing" text="Testing">
+      <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
+    </action>
   </actions>
 
 </idea-plugin>

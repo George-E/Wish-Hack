@@ -13,8 +13,8 @@ public class ModelFieldTable extends JPanel {
 
     private int id = 0;
 
-    public ModelFieldTable() {
-        ModelFieldTableModel tableModel = new ModelFieldTableModel();
+    public ModelFieldTable(ArrayList<ModelField> startingRows) {
+        ModelFieldTableModel tableModel = new ModelFieldTableModel(startingRows);
         mTable = new JTable(tableModel);
 
         JButton add = new JButton("Add Row");
@@ -42,11 +42,11 @@ public class ModelFieldTable extends JPanel {
         this.add(new JScrollPane(mTable));
     }
 
-    public ArrayList<ModelField> getDataRows() {
-        return ((ModelFieldTableModel) mTable.getModel()).getDataRows();
+    public ArrayList<ModelField> getFieldsList() {
+        return ((ModelFieldTableModel) mTable.getModel()).getFieldsList();
     }
 
-    public class ModelField {
+    public static class ModelField {
         private String mFieldType;
         private String mFieldName;
         private String mJsonKey;
@@ -93,11 +93,11 @@ public class ModelFieldTable extends JPanel {
         private String[] mColumnNames = {"Field Type", "Field Name", "JSON Key"};
         private ArrayList<ModelField> mDataRows;
 
-        public ModelFieldTableModel() {
-            mDataRows = new ArrayList<>(24);
+        public ModelFieldTableModel(ArrayList<ModelField> startingRows) {
+            mDataRows = new ArrayList<>(startingRows);
         }
 
-        public ArrayList<ModelField> getDataRows() {
+        public ArrayList<ModelField> getFieldsList() {
             return mDataRows;
         }
 
@@ -108,7 +108,7 @@ public class ModelFieldTable extends JPanel {
 
         public void removeSelectedRows(int[] selectedRows) {
             for(int i = 0; i < selectedRows.length; i++){
-                ((ModelFieldTableModel) mTable.getModel()).removeRow(selectedRows[i] - i);
+                removeRow(selectedRows[i] - i);
             }
         }
 
