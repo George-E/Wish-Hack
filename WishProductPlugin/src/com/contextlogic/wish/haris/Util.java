@@ -1,5 +1,7 @@
 package com.contextlogic.wish.haris;
 
+import com.intellij.ui.EditorTextField;
+
 import javax.swing.*;
 
 /**
@@ -8,6 +10,14 @@ import javax.swing.*;
 public class Util {
 
     public static String extractTextFieldValue(JTextField textField) {
+        if (textField == null || textField.getText().trim() == "") {
+            return null;
+        }
+        return textField.getText().trim();
+    }
+
+
+    public static String extractTextFieldValue(EditorTextField textField) {
         if (textField == null || textField.getText().trim() == "") {
             return null;
         }

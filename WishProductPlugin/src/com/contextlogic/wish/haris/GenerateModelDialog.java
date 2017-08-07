@@ -15,6 +15,7 @@ public class GenerateModelDialog extends DialogWrapper {
 
     private static int DEFAULT_ROWS = 2;
 
+    private Project mProject;
     private JPanel mMainPanel = new JPanel();
 
     private LabeledComponent<JTextField> mModelNameTextField;
@@ -26,6 +27,7 @@ public class GenerateModelDialog extends DialogWrapper {
     public GenerateModelDialog(Project project) {
         super(project);
         setTitle("Generate Model");
+        mProject = project;
         mMainPanel = new JPanel();
         mMembersPanel = new JPanel();
         mMembersPanel.setLayout(new BoxLayout(mMembersPanel, BoxLayout.Y_AXIS));
@@ -64,7 +66,7 @@ public class GenerateModelDialog extends DialogWrapper {
     }
 
     private void addRow() {
-        ModelFieldInfoRow row = new ModelFieldInfoRow();
+        ModelFieldInfoRow row = new ModelFieldInfoRow(mProject);
         mMembersPanel.add(row);
         mFieldsList.add(row);
     }

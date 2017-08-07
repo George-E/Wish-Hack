@@ -1,5 +1,7 @@
 package com.contextlogic.wish.haris;
 
+import com.intellij.openapi.project.Project;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,7 +10,7 @@ import java.awt.*;
  */
 public class ModelFieldInfoRow extends JPanel {
 
-    private static int NUM_COLUMNS = 5;
+    private static int NUM_COLUMNS = 3;
 
     private JTextField mFieldType;
     private JTextField mFieldName;
@@ -30,7 +32,7 @@ public class ModelFieldInfoRow extends JPanel {
         return getFieldType() != null && getFieldName() != null && getJsonFieldName() != null;
     }
 
-    public ModelFieldInfoRow() {
+    public ModelFieldInfoRow(Project project) {
         this.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
         GridBagConstraints constraints = new GridBagConstraints();
