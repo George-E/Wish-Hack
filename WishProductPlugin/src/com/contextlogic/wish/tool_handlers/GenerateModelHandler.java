@@ -33,11 +33,13 @@ public class GenerateModelHandler extends BaseToolHandler {
     private static String TYPE_Parcelable_Creator = "android.os.Parcelable.Creator";
     private static String TYPE_BaseModel = "BaseModel";
 
+    private static int DEFAULT_ROWS = 2;
+
     private final PrimitiveTypeParser mParser = new PrimitiveTypeParser();
 
-    private Project mProject;
+    protected Project mProject;
+    protected PsiDirectory mTargetDir;
     private PsiElementFactory mElementFactory;
-    private PsiDirectory mTargetDir;
 
     GenerateModelDialog mDialog;
 
@@ -48,7 +50,11 @@ public class GenerateModelHandler extends BaseToolHandler {
 
     @Override
     public void showDialog() {
-        mDialog = new GenerateModelDialog(mParent, mEvent);
+        if (mParent != null) {
+            mDialog = new GenerateModelDialog(mParent, mEvent, getStartingRows(), getStartingModelName());
+        } else  {
+            mDialog = new GenerateModelDialog(mEvent, getStartingRows(), getStartingModelName());
+        }
         mElementFactory = JavaPsiFacade.getElementFactory(mProject);
         mDialog.show();
         if (mDialog.isOK()) {
@@ -77,6 +83,13 @@ public class GenerateModelHandler extends BaseToolHandler {
 
         JavaCodeStyleManager.getInstance(mProject).shortenClassReferences(modelClass);
         CodeStyleManager.getInstance(mProject).reformat(newFile);
+        saveFile(newFile);
+
+        OpenFileDescriptor fileDescriptor = new OpenFileDescriptor(mProject, mTargetDir.findFile(completeFileName).getVirtualFile(), 100);
+        fileDescriptor.navigateInEditor(mProject, true);
+    }
+
+    protected void saveFile(PsiFile newFile) {
         new WriteCommandAction.Simple(mProject, newFile) {
             @Override
             protected void run() throws Throwable {
@@ -84,9 +97,6 @@ public class GenerateModelHandler extends BaseToolHandler {
                 mTargetDir.add(newFile);
             }
         }.execute();
-
-        OpenFileDescriptor fileDescriptor = new OpenFileDescriptor(mProject, mTargetDir.findFile(completeFileName).getVirtualFile(), 100);
-        fileDescriptor.navigateInEditor(mProject, true);
     }
 
     private PsiDirectory findSubDirectory(PsiDirectory baseDir, String path) {
@@ -248,5 +258,17 @@ public class GenerateModelHandler extends BaseToolHandler {
             }
         }
         return jsonOptMethod;
+    }
+
+    protected ArrayList<ModelFieldTable.ModelField> getStartingRows() {
+        ArrayList<ModelFieldTable.ModelField> startingRows = new ArrayList<>();
+        for (int i =0; i< DEFAULT_ROWS; i++) {
+            startingRows.add(new ModelFieldTable.ModelField());
+        }
+        return startingRows;
+    }
+
+    protected String getStartingModelName() {
+        return null;
     }
 }

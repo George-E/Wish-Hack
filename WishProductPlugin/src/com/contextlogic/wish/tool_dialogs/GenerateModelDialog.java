@@ -13,14 +13,26 @@ import java.util.ArrayList;
  */
 public class GenerateModelDialog extends BaseToolDialog {
 
-    private static int DEFAULT_ROWS = 2;
+    private ArrayList<ModelFieldTable.ModelField> mStartingRows;
+    private String mStartingModelName;
 
     private LabeledComponent<JTextField> mModelNameTextField;
     private ModelFieldTable mModelFieldTable;
 
-    public GenerateModelDialog(Component parent, AnActionEvent event) {
+    public GenerateModelDialog(AnActionEvent event, ArrayList<ModelFieldTable.ModelField> startingRows, String startingModelName) {
+        super(event);
+        setTitle("Generate Model");
+        mStartingRows = startingRows;
+        mStartingModelName = startingModelName;
+        init();
+        //geisa clean this
+    }
+
+    public GenerateModelDialog(Component parent, AnActionEvent event, ArrayList<ModelFieldTable.ModelField> startingRows, String startingModelName) {
         super(parent, event);
         setTitle("Generate Model");
+        mStartingRows = startingRows;
+        mStartingModelName = startingModelName;
         init();
     }
 
@@ -38,20 +50,12 @@ public class GenerateModelDialog extends BaseToolDialog {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setPreferredSize(new Dimension(400, 300));
-        mModelNameTextField = LabeledComponent.create(new JTextField(), "Model Name");
-        mModelFieldTable = new ModelFieldTable(createStartingRows(), mEvent.getProject());
+        mModelNameTextField = LabeledComponent.create(new JTextField(mStartingModelName), "Model Name");
+        mModelFieldTable = new ModelFieldTable(mStartingRows, mEvent.getProject());
         mainPanel.add(mModelNameTextField);
         addSpaceToPanel(mainPanel, 10);
         mainPanel.add(mModelFieldTable);
         return mainPanel;
-    }
-
-    private ArrayList<ModelFieldTable.ModelField> createStartingRows() {
-        ArrayList<ModelFieldTable.ModelField> startingRows = new ArrayList<>();
-        for (int i =0; i< DEFAULT_ROWS; i++) {
-            startingRows.add(new ModelFieldTable.ModelField());
-        }
-        return startingRows;
     }
 
     private void addSpaceToPanel(JPanel panel, int pixels) {

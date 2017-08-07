@@ -9,6 +9,11 @@ public abstract class BaseToolDialog extends DialogWrapper{
 
     protected AnActionEvent mEvent;
 
+    public BaseToolDialog(AnActionEvent event) {
+        super(true);
+        mEvent = event;
+    }
+
     public BaseToolDialog(Component parent, AnActionEvent event) {
         super(parent, true);
         mEvent = event;

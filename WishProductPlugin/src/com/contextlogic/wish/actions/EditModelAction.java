@@ -1,6 +1,7 @@
 package com.contextlogic.wish.actions;
 
-import com.contextlogic.wish.home.PluginHomeDialog;
+import com.contextlogic.wish.tool_handlers.BaseToolHandler;
+import com.contextlogic.wish.tool_handlers.EditModelHandler;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileTypes.StdFileTypes;
@@ -29,9 +30,6 @@ public class EditModelAction extends AnAction {
             return;
         }
 
-        PluginHomeDialog dialog = new PluginHomeDialog(event);
-
-
         PsiDocumentManager.getInstance(project).commitAllDocuments();
         final Editor editor = event.getData(CommonDataKeys.EDITOR);
 
@@ -42,7 +40,7 @@ public class EditModelAction extends AnAction {
                 return;
             }
             //runOverEditor(project, editor, psiFile);
-            dialog.show();
+            showGenerateModelDialog(psiFile, event);
         } else {
             VirtualFile[] selectedFilesAndDirs = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(event.getDataContext());
             if (selectedFilesAndDirs.length > 1 ) {
@@ -55,9 +53,16 @@ public class EditModelAction extends AnAction {
                 return;
             }
             //runOverFiles(project, files);
-            dialog.show();
+            PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
+            showGenerateModelDialog(psiFile, event);
         }
     }
+
+    private void showGenerateModelDialog(PsiFile psiFile, final AnActionEvent event) {
+        BaseToolHandler handler = new EditModelHandler(null, event, psiFile);
+        handler.showDialog();
+    }
+
 
     @Override
     public void update(final AnActionEvent event) {
