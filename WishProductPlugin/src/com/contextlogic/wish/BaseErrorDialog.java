@@ -6,17 +6,14 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
 
 public class BaseErrorDialog extends DialogWrapper {
 
     private String mTitle;
     private String mMessage;
 
-    public BaseErrorDialog(String title, String message) {
-        super(false);
+    public BaseErrorDialog(Component parent, String title, String message) {
+        super(parent, false);
         setTitle("Oops");
         mTitle = title;
         mMessage = message;

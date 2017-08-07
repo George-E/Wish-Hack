@@ -1,4 +1,4 @@
-package com.contextlogic.wish.haris.ParcelableTypes;
+package com.contextlogic.wish.util.ParcelableTypes;
 
 import com.intellij.psi.PsiField;
 

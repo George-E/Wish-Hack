@@ -1,7 +1,6 @@
-package com.contextlogic.wish.haris;
+package com.contextlogic.wish.tool_dialogs;
 
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.DialogWrapper;
+import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.ui.LabeledComponent;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Created by Haris on 2017-08-03.
  */
-public class GenerateModelDialog extends DialogWrapper {
+public class GenerateModelDialog extends BaseToolDialog {
 
     private static int DEFAULT_ROWS = 2;
 
@@ -21,8 +20,8 @@ public class GenerateModelDialog extends DialogWrapper {
     private LabeledComponent<JTextField> mModelNameTextField;
     private FieldTable mFieldTable;
 
-    public GenerateModelDialog(Project project) {
-        super(project);
+    public GenerateModelDialog(Component parent, AnActionEvent event) {
+        super(parent, event);
         setTitle("Generate Model");
         mMainPanel = new JPanel();
         init();

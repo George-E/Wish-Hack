@@ -1,5 +1,6 @@
 package com.contextlogic.wish.tool_dialogs;
 
+import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -13,8 +14,8 @@ public class AddImageDialog extends BaseToolDialog {
     private JTextField mSrcFileTextField;
     private JTextField mDestFileTextField;
 
-    public AddImageDialog(Component parent) {
-        super(parent);
+    public AddImageDialog(Component parent, AnActionEvent event) {
+        super(parent, event);
         setTitle("Select image to be compressed and added");
         myOKAction.putValue(Action.NAME, "Add");
         init();

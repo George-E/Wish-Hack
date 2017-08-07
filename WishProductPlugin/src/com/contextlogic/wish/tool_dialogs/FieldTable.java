@@ -1,4 +1,4 @@
-package com.contextlogic.wish.haris;
+package com.contextlogic.wish.tool_dialogs;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;

@@ -1,7 +1,8 @@
 package com.contextlogic.wish.home;
 
-import com.contextlogic.wish.tool_handlers.BaseToolHandler;
 import com.contextlogic.wish.PluginToolsDesc;
+import com.contextlogic.wish.tool_handlers.BaseToolHandler;
+import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.ui.DialogWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -13,9 +14,11 @@ import java.awt.event.ActionListener;
 
 public class PluginHomeDialog extends DialogWrapper {
 
+    private AnActionEvent mEvent;
 
-    public PluginHomeDialog(String title, String message) {
+    public PluginHomeDialog(AnActionEvent event) {
         super(true);
+        mEvent = event;
         setTitle("Wish Product Plugin");
         init();
     }
@@ -34,13 +37,11 @@ public class PluginHomeDialog extends DialogWrapper {
 
         for (int i =0; i< tools.length; i++) {
             JButton btn = new JButton(PluginToolsDesc.getName(tools[i]));
-            btn.setPreferredSize(panel.getSize());
             final int index = i;
             btn.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
-                    DialogWrapper dialog = PluginToolsDesc.createDialog(tools[index], panel);
-                    BaseToolHandler handler = PluginToolsDesc.createHandler(tools[index]);
-                    handler.handleDialog(dialog);
+                    BaseToolHandler handler = PluginToolsDesc.createHandler(tools[index], panel, mEvent);
+                    handler.showDialog();
                 }
             });
             panel.add(btn);

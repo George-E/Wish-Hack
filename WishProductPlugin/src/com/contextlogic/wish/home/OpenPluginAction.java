@@ -11,8 +11,8 @@ public class OpenPluginAction extends AnAction {
     }
 
     @Override
-    public void actionPerformed(AnActionEvent e) {
-        PluginHomeDialog dialog = new PluginHomeDialog("hi", "hi");
+    public void actionPerformed(AnActionEvent event) {
+        PluginHomeDialog dialog = new PluginHomeDialog(event);
         dialog.show();
     }
 }

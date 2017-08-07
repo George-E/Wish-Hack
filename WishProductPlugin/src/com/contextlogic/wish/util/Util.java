@@ -1,4 +1,4 @@
-package com.contextlogic.wish.haris;
+package com.contextlogic.wish.util;
 
 import javax.swing.*;
 

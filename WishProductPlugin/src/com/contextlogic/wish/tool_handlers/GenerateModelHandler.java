@@ -1,8 +1,9 @@
-package com.contextlogic.wish.haris;
+package com.contextlogic.wish.tool_handlers;
 
-import com.contextlogic.wish.haris.ParcelableTypes.primitives.PrimitiveType;
-import com.contextlogic.wish.haris.ParcelableTypes.primitives.PrimitiveTypeParser;
-import com.intellij.openapi.actionSystem.AnAction;
+import com.contextlogic.wish.tool_dialogs.GenerateModelDialog;
+import com.contextlogic.wish.util.ParcelableTypes.primitives.PrimitiveType;
+import com.contextlogic.wish.util.ParcelableTypes.primitives.PrimitiveTypeParser;
+import com.contextlogic.wish.util.Util;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
@@ -13,12 +14,14 @@ import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
 import com.intellij.psi.util.PsiTreeUtil;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
  * Created by Haris on 2017-08-03.
  */
-public class GenerateModelAction extends AnAction {
+
+public class GenerateModelHandler extends BaseToolHandler {
 
     private static String TYPE_JSONException = "org.json.JSONException";
     private static String TYPE_JSONObject = "org.json.JSONObject";
@@ -32,16 +35,19 @@ public class GenerateModelAction extends AnAction {
     private Project mProject;
     private PsiElementFactory mElementFactory;
 
+    GenerateModelDialog mDialog;
+
+    public GenerateModelHandler(Component parent, AnActionEvent event) {
+        super(parent, event);
+        mProject = mEvent.getProject();
+    }
+
     @Override
-    public void actionPerformed(AnActionEvent e) {
-        mProject = e.getProject();
-
-        GenerateModelDialog dialog = new GenerateModelDialog(mProject);
-        mElementFactory = JavaPsiFacade.getElementFactory(mProject);
-
-        dialog.show();
-        if (dialog.isOK()) {
-            createModel(dialog.getFileName(), dialog.getFieldsList());
+    public void showDialog() {
+        mDialog = new GenerateModelDialog(mParent, mEvent);
+        mDialog.show();
+        if (mDialog.isOK()) {
+            createModel(mDialog.getFileName(), mDialog.getFieldsList());
         }
     }
 

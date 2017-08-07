@@ -1,7 +1,18 @@
 package com.contextlogic.wish.tool_handlers;
 
-import com.intellij.openapi.ui.DialogWrapper;
+import com.intellij.openapi.actionSystem.AnActionEvent;
 
-public interface BaseToolHandler {
-    void handleDialog(DialogWrapper dialog);
+import java.awt.*;
+
+public abstract class BaseToolHandler {
+
+    protected Component mParent;
+    protected AnActionEvent mEvent;
+
+    public BaseToolHandler(Component parent, AnActionEvent event) {
+        mParent = parent;
+        mEvent = event;
+    }
+
+    abstract public void showDialog();
 }
