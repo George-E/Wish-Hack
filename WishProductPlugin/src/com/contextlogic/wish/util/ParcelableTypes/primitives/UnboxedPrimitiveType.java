@@ -1,6 +1,6 @@
 package com.contextlogic.wish.util.ParcelableTypes.primitives;
 
-import com.contextlogic.wish.util.Util;
+import com.contextlogic.wish.util.ModelUtil;
 import com.intellij.psi.PsiField;
 
 /**
@@ -14,11 +14,11 @@ public class UnboxedPrimitiveType extends PrimitiveType {
 
     @Override
     public String getReadValue(String source) {
-        return String.format("%s.read%s()", source, Util.capitalize(mType));
+        return String.format("%s.read%s()", source, ModelUtil.capitalize(mType));
     }
 
     @Override
     public String getWriteValue(String dest, PsiField psiField, int flag) {
-        return String.format("%s.write%s(%s)", dest, Util.capitalize(mType), psiField.getName());
+        return String.format("%s.write%s(%s)", dest, ModelUtil.capitalize(mType), psiField.getName());
     }
 }

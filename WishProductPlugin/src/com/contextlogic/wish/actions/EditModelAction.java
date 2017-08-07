@@ -5,14 +5,20 @@ import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
+import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.GlobalSearchScopesCore;
 
 public class EditModelAction extends AnAction {
+
+    public EditModelAction() {
+        super(IconLoader.getIcon("/com/contextlogic/wish/icons/wish.png"));
+    }
 
     @Override
     public void actionPerformed(final AnActionEvent event) {
@@ -60,21 +66,13 @@ public class EditModelAction extends AnAction {
             return;
         }
 
-        final DartSdk sdk = DartSdk.getDartSdk(project);
-        if (sdk == null || !DartAnalysisServerService.isDartSdkVersionSufficient(sdk)) {
-            presentation.setEnabledAndVisible(false);
-            return;
-        }
-
         final Editor editor = event.getData(CommonDataKeys.EDITOR);
         final VirtualFile[] filesAndDirs = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(event.getDataContext());
 
         if (editor != null) {
             final PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(editor.getDocument());
             // visible for any Dart file, but enabled for applicable only
-            presentation.setVisible(psiFile != null && psiFile.getFileType() == DartFileType.INSTANCE);
-            presentation.setEnabled(isApplicableFile(psiFile));
-            presentation.setText(getActionTextForEditor());
+            presentation.setEnabledAndVisible(isApplicableFile(psiFile));
             return;
         } else if (filesAndDirs != null) {
             presentation.setEnabledAndVisible(false);
@@ -85,12 +83,12 @@ public class EditModelAction extends AnAction {
     }
 
     private static boolean mayHaveApplicableFiles(final Project project, final VirtualFile[] files) {
+        GlobalSearchScope dirScope = null;
+
         for (VirtualFile fileOrDir : files) {
             if (!fileOrDir.isDirectory() && isApplicableFile(project, fileOrDir)) {
                 return true;
             }
-
-            GlobalSearchScope dirScope = null;
 
             if (fileOrDir.isDirectory())
                 if (dirScope == null) {
@@ -99,6 +97,15 @@ public class EditModelAction extends AnAction {
                 else {
                     dirScope = dirScope.union(GlobalSearchScopesCore.directoryScope(project, fileOrDir, true));
                 }
+
+                if (dirScope != null) {
+                    for (VirtualFile file : FileTypeIndex
+                        .getFiles(StdFileTypes.JAVA, GlobalSearchScope.projectScope(project).intersectWith(dirScope))) {
+                    if (isApplicableFile(project, file)) {
+                        return true;
+                    }
+                }
+
             }
         }
 

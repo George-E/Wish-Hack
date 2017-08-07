@@ -1,5 +1,6 @@
 package com.contextlogic.wish.util.ParcelableTypes.primitives;
 
+import com.contextlogic.wish.util.ParcelableTypes.custom.CustomClassType;
 import com.intellij.psi.CommonClassNames;
 import com.intellij.psi.PsiField;
 
@@ -22,6 +23,7 @@ public class PrimitiveTypeParser {
         supportedTypes.put("double", new UnboxedPrimitiveType("double"));
         supportedTypes.put("byte", new UnboxedPrimitiveType("byte"));
         supportedTypes.put("long", new UnboxedPrimitiveType("long"));
+        supportedTypes.put("boolean", new BooleanPrimitiveType("boolean"));
 
         // wrapped types
         supportedTypes.put(CommonClassNames.JAVA_LANG_INTEGER,new BoxedPrimitiveType(CommonClassNames.JAVA_LANG_INTEGER));
@@ -33,6 +35,10 @@ public class PrimitiveTypeParser {
     }
 
     public PrimitiveType getParcelableType(PsiField field) {
-        return supportedTypes.get(field.getType().getCanonicalText());
+        if (supportedTypes.containsKey(field.getType().getCanonicalText())) {
+            return supportedTypes.get(field.getType().getCanonicalText());
+        } else {
+            return new CustomClassType(field.getType().getPresentableText());
+        }
     }
 }
