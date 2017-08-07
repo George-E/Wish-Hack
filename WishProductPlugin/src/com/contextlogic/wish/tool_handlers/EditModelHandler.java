@@ -28,12 +28,12 @@ public class EditModelHandler extends GenerateModelHandler {
     protected ArrayList<ModelFieldTable.ModelField> getStartingRows() {
         ArrayList<ModelFieldTable.ModelField> startingRows =  new ArrayList<>();
         PsiClass psiClass = PsiTreeUtil.findChildOfType(mPsiFile, PsiClass.class);
-        PsiField psiFields[] = psiClass.getAllFields();
+        PsiField psiFields[] = psiClass.getFields();
         for (PsiField psiField : psiFields) {
             if (psiField.getName().equalsIgnoreCase("creator")) {
                 continue;
             }
-            startingRows.add( new ModelFieldTable.ModelField(psiField.getType().getPresentableText(), psiField.getName(), "key"));
+            startingRows.add( new ModelFieldTable.ModelField(psiField.getType().getPresentableText(), psiField.getName(), "--"));
         }
         return startingRows;
     }

@@ -21,7 +21,11 @@ public class GenerateModelDialog extends BaseToolDialog {
 
     public GenerateModelDialog(AnActionEvent event, ArrayList<ModelFieldTable.ModelField> startingRows, String startingModelName) {
         super(event);
-        setTitle("Generate Model");
+        if (startingModelName == null || startingModelName.isEmpty()) {
+            setTitle("Generate Model");
+        } else  {
+            setTitle("Edit Model");
+        }
         mStartingRows = startingRows;
         mStartingModelName = startingModelName;
         init();

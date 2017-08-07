@@ -3,6 +3,9 @@ package com.contextlogic.wish.tool_handlers;
 import com.contextlogic.wish.BaseErrorDialog;
 import com.contextlogic.wish.tool_dialogs.AddImageDialog;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.fileEditor.OpenFileDescriptor;
+import com.intellij.psi.PsiDirectory;
+import com.intellij.psi.PsiManager;
 import com.tinify.Tinify;
 
 import java.awt.*;
@@ -56,13 +59,37 @@ public class AddImageHandler extends BaseToolHandler {
                 return;
             }
             Tinify.fromFile(src).toFile(dest + "/" + srcFile.getName());
+
+
+            PsiDirectory baseDir = PsiManager.getInstance(mEvent.getProject()).findDirectory(mEvent.getProject().getBaseDir());
+            String subDirForImages = ResourceBundle.getBundle("values").getString("sub_dir_for_images");
+            PsiDirectory targetDir = findSubDirectory(baseDir, subDirForImages);
+            /*System.out.println(targetDir.getName());
+            for (PsiFile file : targetDir.getFiles()) {
+                System.out.println(file.getName());
+            }*/
+            OpenFileDescriptor fileDescriptor = new OpenFileDescriptor(mEvent.getProject(), targetDir.findFile(srcFile.getName()).getVirtualFile(), 100);
+            fileDescriptor.navigateInEditor(mEvent.getProject(), true);
         } catch (Exception e) {
+            e.printStackTrace();
             BaseErrorDialog errorDialog = new BaseErrorDialog(
                     mParent,
                     "Unexpected Error:",
-                    e.getLocalizedMessage()
+                    e.getMessage()
             );
             errorDialog.show();
         }
+    }
+
+    //geisa move this to util
+    private PsiDirectory findSubDirectory(PsiDirectory baseDir, String path) {
+        PsiDirectory destinationDir = baseDir;
+        for (String dirName: path.split("\\.")) {
+            destinationDir = destinationDir.findSubdirectory(dirName);
+            if (destinationDir == null) {
+                return null;
+            }
+        }
+        return destinationDir;
     }
 }

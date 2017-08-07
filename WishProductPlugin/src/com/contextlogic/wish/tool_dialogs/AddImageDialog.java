@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ResourceBundle;
 
 public class AddImageDialog extends BaseToolDialog {
 
@@ -52,7 +53,9 @@ public class AddImageDialog extends BaseToolDialog {
 
         JLabel destPrompt = new JLabel("Choose Destination:");
         JPanel destFilePanel = new JPanel(new BorderLayout());
-        mDestFileTextField = new JTextField();
+
+        String subDirForImages = ResourceBundle.getBundle("values").getString("sub_dir_path_for_images");
+        mDestFileTextField = new JTextField(mEvent.getProject().getBaseDir().getPath() + subDirForImages);
         JButton destFileSelectorButton = new JButton("Find");
         destFileSelectorButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
