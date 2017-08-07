@@ -1,4 +1,4 @@
-package com.contextlogic.wish.haris;
+package com.contextlogic.wish.haris.view;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class GenerateModelDialog extends DialogWrapper {
 
-    private static int DEFAULT_ROWS = 2;
+    private static int DEFAULT_ROWS = 4;
 
     private Project mProject;
     private JPanel mMainPanel = new JPanel();
@@ -22,7 +22,7 @@ public class GenerateModelDialog extends DialogWrapper {
     private JPanel mMembersPanel;
 
     private int mNumMembers;
-    private ArrayList<ModelFieldInfoRow> mFieldsList;
+    private ArrayList<FieldInfoView> mFieldsList;
 
     public GenerateModelDialog(Project project) {
         super(project);
@@ -40,7 +40,7 @@ public class GenerateModelDialog extends DialogWrapper {
         return mModelNameTextField.getComponent().getText();
     }
 
-    public ArrayList<ModelFieldInfoRow> getFieldsList() {
+    public ArrayList<FieldInfoView> getFieldsList() {
         return mFieldsList;
     }
 
@@ -66,7 +66,7 @@ public class GenerateModelDialog extends DialogWrapper {
     }
 
     private void addRow() {
-        ModelFieldInfoRow row = new ModelFieldInfoRow(mProject);
+        FieldInfoView row = new FieldInfoView(mProject);
         mMembersPanel.add(row);
         mFieldsList.add(row);
     }

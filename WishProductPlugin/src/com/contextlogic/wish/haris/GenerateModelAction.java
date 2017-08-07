@@ -2,6 +2,8 @@ package com.contextlogic.wish.haris;
 
 import com.contextlogic.wish.haris.ParcelableTypes.primitives.PrimitiveType;
 import com.contextlogic.wish.haris.ParcelableTypes.primitives.PrimitiveTypeParser;
+import com.contextlogic.wish.haris.view.FieldInfoView;
+import com.contextlogic.wish.haris.view.GenerateModelDialog;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.command.WriteCommandAction;
@@ -26,11 +28,13 @@ public class GenerateModelAction extends AnAction {
     private static String TYPE_Parcel = "android.os.Parcel";
     private static String TYPE_Parcelable = "android.os.Parcelable";
     private static String TYPE_Parcelable_Creator = "android.os.Parcelable.Creator";
+    private static String TYPE_BaseModel = "BaseModel";
 
     private final PrimitiveTypeParser mParser = new PrimitiveTypeParser();
 
     private Project mProject;
     private PsiElementFactory mElementFactory;
+    private PsiDirectory mTargetDir;
 
     @Override
     public void actionPerformed(AnActionEvent e) {
@@ -45,18 +49,20 @@ public class GenerateModelAction extends AnAction {
         }
     }
 
-    private void createModel(String fileName, ArrayList<ModelFieldInfoRow> fields) {
+    private void createModel(String fileName, ArrayList<FieldInfoView> fields) {
         String classText = "public class " + fileName + " {\n}";
         String completeFileName = fileName + ".java";
         PsiFile newFile = PsiFileFactory.getInstance(mProject).createFileFromText(completeFileName, StdFileTypes.JAVA, classText);
         PsiDirectory baseDir = PsiManager.getInstance(mProject).findDirectory(mProject.getBaseDir());
-        PsiDirectory destinationDir = findSubDirectory(baseDir, "app.src.main.java.com.contextlogic.wish.api.model");
+        mTargetDir = findSubDirectory(baseDir, "app.src.main.java.com.contextlogic.wish.api.model");
         PsiClass modelClass = getChildClass(newFile);
 
         generateImplements(modelClass, TYPE_Parcelable);
+        generateExtends(modelClass, TYPE_BaseModel);
         generateFields(modelClass, fields);
         generateGetters(modelClass);
         generateConstructorFromParcel(modelClass, "in");
+        generateParseJson(modelClass, fields, "jsonObject");
         generateDescribeContents(modelClass);
         generateWriteToParcel(modelClass, "dest");
         generateCreator(modelClass);
@@ -67,11 +73,11 @@ public class GenerateModelAction extends AnAction {
             @Override
             protected void run() throws Throwable {
                 // Must handle file already exists case
-                destinationDir.add(newFile);
+                mTargetDir.add(newFile);
             }
         }.execute();
 
-        OpenFileDescriptor fileDescriptor = new OpenFileDescriptor(mProject, destinationDir.findFile(completeFileName).getVirtualFile(), 100);
+        OpenFileDescriptor fileDescriptor = new OpenFileDescriptor(mProject, mTargetDir.findFile(completeFileName).getVirtualFile(), 100);
         fileDescriptor.navigateInEditor(mProject, true);
     }
 
@@ -91,8 +97,8 @@ public class GenerateModelAction extends AnAction {
         return psiClass;
     }
 
-    private void generateFields(PsiClass psiClass, ArrayList<ModelFieldInfoRow> rows) {
-        for (ModelFieldInfoRow fieldInfo : rows) {
+    private void generateFields(PsiClass psiClass, ArrayList<FieldInfoView> rows) {
+        for (FieldInfoView fieldInfo : rows) {
             if (!fieldInfo.isValidField()) {
                 break;
             }
@@ -105,7 +111,7 @@ public class GenerateModelAction extends AnAction {
     private void generateGetters(PsiClass psiClass) {
         PsiField[] fields = psiClass.getFields();
         for (PsiField field: fields) {
-            String formattedMethodName = Util.getFormattedName(field.getName());
+            String formattedMethodName = ModelUtil.getFormattedName(field.getName());
             String signature = "public " + field.getType().getPresentableText() + " get" + formattedMethodName + "()";
             StringBuilder builder = new StringBuilder(signature);
             builder.append("\n{ return " + field.getName() + ";\n}");
@@ -131,6 +137,24 @@ public class GenerateModelAction extends AnAction {
         psiClass.add(cons);
     }
 
+    private void generateParseJson(PsiClass psiClass, ArrayList<FieldInfoView> fields, String arg) {
+        StringBuilder builder = new StringBuilder("@Override protected void parseJson(");
+        builder.append(TYPE_JSONObject + " jsonObject) {");
+        for (FieldInfoView field: fields) {
+            String parseJsonMethod = getParseJsonMethod(field, "jsonObject");
+            builder.append(field.getFieldName() + " = " + parseJsonMethod + ";");
+        }
+        builder.append("}");
+        PsiMethod parseJsonMethod = createPsiMethod(builder, psiClass);
+        addExceptions(parseJsonMethod, TYPE_JSONException, TYPE_ParseException);
+        psiClass.add(parseJsonMethod);
+    }
+
+    private void generateExtends(PsiClass psiClass, String type) {
+        PsiJavaCodeReferenceElement referenceElement = mElementFactory.createReferenceFromText(type, psiClass);
+        psiClass.getExtendsList().add(referenceElement);
+    }
+
     private void generateImplements(PsiClass psiClass, String type) {
         PsiJavaCodeReferenceElement referenceElement = mElementFactory.createReferenceFromText(type, psiClass);
         psiClass.getImplementsList().add(referenceElement);
@@ -150,6 +174,7 @@ public class GenerateModelAction extends AnAction {
             PrimitiveType parcelableType = mParser.getParcelableType(field);
             if (parcelableType != null) {
                 builder.append(parcelableType.getWriteValue(dest, field, 0) + ";");
+            } else {
             }
         }
         builder.append("}");
@@ -179,5 +204,40 @@ public class GenerateModelAction extends AnAction {
     private PsiMethod createPsiMethod(StringBuilder builder, PsiClass psiClass) {
         PsiMethod method = mElementFactory.createMethodFromText(builder.toString(), psiClass);
         return method;
+    }
+
+    private void addExceptions(PsiMethod method, String... exceptions) {
+        for (String exception: exceptions) {
+            PsiJavaCodeReferenceElement referenceElement = mElementFactory.createReferenceFromText(exception, method);
+            method.getThrowsList().add(referenceElement);
+        }
+    }
+
+    private String getParseJsonMethod(FieldInfoView field, String source) {
+        String fieldType = field.getFieldType();
+        String jsonOptMethod = null;
+        boolean isExistingClass = false;
+        if (fieldType.equals("String")) {
+            jsonOptMethod = "optString";
+        } else if (fieldType.equals("int") || fieldType.equals("Integer")) {
+            jsonOptMethod = "optInt";
+        } else if (fieldType.equals("boolean") || fieldType.equals("Boolean")) {
+            jsonOptMethod = "optBoolean";
+        } else if (fieldType.equals("long") || fieldType.equals("Long")) {
+            jsonOptMethod = "optLong";
+        } else if (fieldType.equals("double") || fieldType.equals("Double")){
+            jsonOptMethod = "optDouble";
+        } else if (ModelUtil.getExistingModelNames(mProject).contains(fieldType)) {
+            jsonOptMethod = "optJSONObject";
+            isExistingClass = true;
+        }
+        if (jsonOptMethod != null) {
+            if (isExistingClass) {
+                jsonOptMethod = String.format("new %s(%s.%s(\"%s\"))", field.getFieldType(), source, jsonOptMethod, field.getJsonFieldName());
+            } else {
+                jsonOptMethod = String.format("%s.%s(\"%s\")", source, jsonOptMethod, field.getJsonFieldName());
+            }
+        }
+        return jsonOptMethod;
     }
 }

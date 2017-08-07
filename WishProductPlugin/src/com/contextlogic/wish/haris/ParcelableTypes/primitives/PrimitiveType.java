@@ -14,4 +14,5 @@ public abstract class PrimitiveType extends ParcelableElementType {
 
     public abstract String getReadValue(String source);
     public abstract String getWriteValue(String dest, PsiField field, int flag);
+
 }
