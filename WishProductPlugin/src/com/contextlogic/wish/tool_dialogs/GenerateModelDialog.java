@@ -18,7 +18,7 @@ public class GenerateModelDialog extends BaseToolDialog {
     private JPanel mMainPanel = new JPanel();
 
     private LabeledComponent<JTextField> mModelNameTextField;
-    private FieldTable mFieldTable;
+    private ModelFieldTable mModelFieldTable;
 
     public GenerateModelDialog(Component parent, AnActionEvent event) {
         super(parent, event);
@@ -31,8 +31,8 @@ public class GenerateModelDialog extends BaseToolDialog {
         return mModelNameTextField.getComponent().getText();
     }
 
-    public ArrayList<String[]> getFieldsList() {
-        return mFieldTable.getDataRows();
+    public ArrayList<ModelFieldTable.ModelField> getFieldsList() {
+        return mModelFieldTable.getDataRows();
     }
 
     @Nullable
@@ -42,10 +42,9 @@ public class GenerateModelDialog extends BaseToolDialog {
         mMainPanel.setPreferredSize(new Dimension(400, 300));
         mModelNameTextField = createLabeledTextField("Model Name", 30);
 
-        String[] columnNames = {"Field Type", "Field Name", "JSON Key"};
-        mFieldTable = new FieldTable(columnNames);
+        mModelFieldTable = new ModelFieldTable();
         mMainPanel.add(mModelNameTextField);
-        mMainPanel.add(mFieldTable);
+        mMainPanel.add(mModelFieldTable);
         return mMainPanel;
     }
 

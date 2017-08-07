@@ -1,6 +1,7 @@
 package com.contextlogic.wish.tool_handlers;
 
 import com.contextlogic.wish.tool_dialogs.GenerateModelDialog;
+import com.contextlogic.wish.tool_dialogs.ModelFieldTable;
 import com.contextlogic.wish.util.ParcelableTypes.primitives.PrimitiveType;
 import com.contextlogic.wish.util.ParcelableTypes.primitives.PrimitiveTypeParser;
 import com.contextlogic.wish.util.Util;
@@ -51,7 +52,7 @@ public class GenerateModelHandler extends BaseToolHandler {
         }
     }
 
-    private void createModel(String fileName, ArrayList<String[]> fields) {
+    private void createModel(String fileName, ArrayList<ModelFieldTable.ModelField> fields) {
         String classText = "public class " + fileName + " {\n}";
         String completeFileName = fileName + ".java";
         PsiFile newFile = PsiFileFactory.getInstance(mProject).createFileFromText(completeFileName, StdFileTypes.JAVA, classText);
@@ -98,14 +99,12 @@ public class GenerateModelHandler extends BaseToolHandler {
         return psiClass;
     }
 
-    private void generateFields(PsiClass psiClass, ArrayList<String[]> rows) {
-        for (String[] fieldInfo : rows) {
-            /*if (!fieldInfo.isValidField()) {
+    private void generateFields(PsiClass psiClass, ArrayList<ModelFieldTable.ModelField> rows) {
+        for (ModelFieldTable.ModelField fieldInfo : rows) {
+            if (!fieldInfo.isValidField()) {
                 break;
             }
-            geisa
-            */
-            String fieldString = "private " + fieldInfo[0] + " " + fieldInfo[1] + ";";
+            String fieldString = "private " + fieldInfo.getFieldType() + " " + fieldInfo.getFieldName() + ";";
             PsiField psiField = mElementFactory.createFieldFromText(fieldString, psiClass);
             psiClass.add(psiField);
         }
