@@ -17,6 +17,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 /**
  * Created by Haris on 2017-08-03.
@@ -59,8 +60,8 @@ public class GenerateModelHandler extends BaseToolHandler {
         String completeFileName = fileName + ".java";
         PsiFile newFile = PsiFileFactory.getInstance(mProject).createFileFromText(completeFileName, StdFileTypes.JAVA, classText);
         PsiDirectory baseDir = PsiManager.getInstance(mProject).findDirectory(mProject.getBaseDir());
-        //mTargetDir = findSubDirectory(baseDir, "app.src.main.java.com.contextlogic.wish.api.model");
-        mTargetDir = findSubDirectory(baseDir, "src.com.contextlogic.wish.api.model");
+        String subDirForModels = ResourceBundle.getBundle("values").getString("sub_dir_for_models");
+        mTargetDir = findSubDirectory(baseDir, subDirForModels);
         PsiClass modelClass = getChildClass(newFile);
 
         generateImplements(modelClass, TYPE_Parcelable);

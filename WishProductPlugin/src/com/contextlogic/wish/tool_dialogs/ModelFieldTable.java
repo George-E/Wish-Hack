@@ -2,6 +2,7 @@ package com.contextlogic.wish.tool_dialogs;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,18 @@ public class ModelFieldTable extends JPanel {
     public ModelFieldTable(ArrayList<ModelField> startingRows) {
         ModelFieldTableModel tableModel = new ModelFieldTableModel(startingRows);
         mTable = new JTable(tableModel);
+
+
+        TableColumn fieldTypeColumn = mTable.getColumnModel().getColumn(0);
+
+        JComboBox comboBox = new JComboBox();
+        comboBox.addItem("Snowboarding");
+        comboBox.addItem("Rowing");
+        comboBox.addItem("Chasing toddlers");
+        comboBox.addItem("Speed reading");
+        comboBox.addItem("Teaching high school");
+        comboBox.addItem("None");
+        fieldTypeColumn.setCellEditor(new DefaultCellEditor(comboBox));
 
         JButton add = new JButton("Add Row");
         add.addActionListener(new ActionListener() {

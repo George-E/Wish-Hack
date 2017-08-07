@@ -4,29 +4,20 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
-import com.intellij.ui.EditorTextField;
 
-import javax.swing.*;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 /**
  * Created by Haris on 2017-08-03.
  */
 public class ModelUtil {
 
-    public static String extractTextFieldValue(JTextField textField) {
-        if (textField == null || textField.getText().trim() == "") {
+    public static String extractTextFieldValue(String textFieldValue) {
+        if (textFieldValue == null || textFieldValue.trim() == "") {
             return null;
         }
-        return textField.getText().trim();
-    }
-
-
-    public static String extractTextFieldValue(EditorTextField textField) {
-        if (textField == null || textField.getText().trim() == "") {
-            return null;
-        }
-        return textField.getText().trim();
+        return textFieldValue.trim();
     }
 
     public static String getFormattedName(String s) {
@@ -44,7 +35,8 @@ public class ModelUtil {
 
     public static ArrayList<String> getExistingModelNames(Project project) {
         PsiDirectory baseDir = PsiManager.getInstance(project).findDirectory(project.getBaseDir());
-        PsiDirectory destinationDir = findSubDirectory(baseDir, "app.src.main.java.com.contextlogic.wish.api.model");
+        String subDirForModels = ResourceBundle.getBundle("values").getString("sub_dir_for_models");
+        PsiDirectory destinationDir = findSubDirectory(baseDir, subDirForModels);
         PsiFile[] models = destinationDir.getFiles();
         ArrayList<String> names = new ArrayList<>();
         for (PsiFile model: models) {

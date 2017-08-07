@@ -7,6 +7,7 @@ import com.tinify.Tinify;
 
 import java.awt.*;
 import java.io.File;
+import java.util.ResourceBundle;
 
 public class AddImageHandler extends BaseToolHandler {
 
@@ -31,7 +32,7 @@ public class AddImageHandler extends BaseToolHandler {
 
     private void compressAndSave(String src, String dest) {
         try {
-            Tinify.setKey("MVGfmtzZA1YB-igVC9aJHFLO2GehQn_X");
+            Tinify.setKey(ResourceBundle.getBundle("values").getString("tinypng_api_key"));
             File srcFile = new File(src);
             File destFile = new File(dest);
 

@@ -1,5 +1,6 @@
 package com.contextlogic.wish.tool_dialogs;
 
+import com.contextlogic.wish.util.ModelUtil;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.ui.LabeledComponent;
 import org.jetbrains.annotations.Nullable;
@@ -15,12 +16,15 @@ public class GenerateModelDialog extends BaseToolDialog {
 
     private static int DEFAULT_ROWS = 2;
 
+    private ArrayList<String> mExistingModels;
+
     private LabeledComponent<JTextField> mModelNameTextField;
     private ModelFieldTable mModelFieldTable;
 
     public GenerateModelDialog(Component parent, AnActionEvent event) {
         super(parent, event);
         setTitle("Generate Model");
+        mExistingModels = ModelUtil.getExistingModelNames(event.getProject());
         init();
     }
 
