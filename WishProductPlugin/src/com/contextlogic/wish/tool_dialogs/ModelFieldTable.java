@@ -1,5 +1,8 @@
 package com.contextlogic.wish.tool_dialogs;
 
+import com.contextlogic.wish.util.ModelUtil;
+import com.intellij.openapi.project.Project;
+
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
@@ -12,22 +15,23 @@ public class ModelFieldTable extends JPanel {
 
     private JTable mTable;
 
-    private int id = 0;
-
-    public ModelFieldTable(ArrayList<ModelField> startingRows) {
+    public ModelFieldTable(ArrayList<ModelField> startingRows, Project project) {
         ModelFieldTableModel tableModel = new ModelFieldTableModel(startingRows);
         mTable = new JTable(tableModel);
+        mTable.setRowHeight(30);
+        mTable.setGridColor(Color.BLACK);
 
+        ArrayList<String> existingModels = ModelUtil.getExistingModelNames(project);
 
         TableColumn fieldTypeColumn = mTable.getColumnModel().getColumn(0);
 
         JComboBox comboBox = new JComboBox();
-        comboBox.addItem("Snowboarding");
-        comboBox.addItem("Rowing");
-        comboBox.addItem("Chasing toddlers");
-        comboBox.addItem("Speed reading");
-        comboBox.addItem("Teaching high school");
-        comboBox.addItem("None");
+        for (String model: existingModels) {
+            comboBox.addItem(model);
+        }
+        comboBox.setMaximumRowCount(10);
+        comboBox.setEditable(true);
+
         fieldTypeColumn.setCellEditor(new DefaultCellEditor(comboBox));
 
         JButton add = new JButton("Add Row");

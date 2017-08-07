@@ -47,6 +47,12 @@ public class PluginHomeDialog extends DialogWrapper {
             panel.add(btn);
         }
 
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            javax.swing.SwingUtilities.updateComponentTreeUI(panel);
+        } catch(Exception e) {
+        }
+
         return panel;
     }
 
