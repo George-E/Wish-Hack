@@ -12,6 +12,7 @@ import com.intellij.psi.*;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
 import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.ui.CollectionListModel;
 
 import java.util.ArrayList;
 
@@ -45,12 +46,13 @@ public class GenerateModelAction extends AnAction {
         }
     }
 
-    private void createModel(String fileName, ArrayList<ModelFieldInfoRow> fields) {
+    private void createModel(String fileName, CollectionListModel<ModelFieldInfoRow> fields) {
         String classText = "public class " + fileName + " {\n}";
         String completeFileName = fileName + ".java";
         PsiFile newFile = PsiFileFactory.getInstance(mProject).createFileFromText(completeFileName, StdFileTypes.JAVA, classText);
         PsiDirectory baseDir = PsiManager.getInstance(mProject).findDirectory(mProject.getBaseDir());
-        PsiDirectory destinationDir = findSubDirectory(baseDir, "app.src.main.java.com.contextlogic.wish.api.model");
+        //PsiDirectory destinationDir = findSubDirectory(baseDir, "app.src.main.java.com.contextlogic.wish.api.model");
+        PsiDirectory destinationDir = findSubDirectory(baseDir, "src.com.contextlogic.wish.api.model");
         PsiClass modelClass = getChildClass(newFile);
 
         generateImplements(modelClass, TYPE_Parcelable);
@@ -91,8 +93,8 @@ public class GenerateModelAction extends AnAction {
         return psiClass;
     }
 
-    private void generateFields(PsiClass psiClass, ArrayList<ModelFieldInfoRow> rows) {
-        for (ModelFieldInfoRow fieldInfo : rows) {
+    private void generateFields(PsiClass psiClass, CollectionListModel<ModelFieldInfoRow> rows) {
+        for (ModelFieldInfoRow fieldInfo : rows.getItems()) {
             if (!fieldInfo.isValidField()) {
                 break;
             }
