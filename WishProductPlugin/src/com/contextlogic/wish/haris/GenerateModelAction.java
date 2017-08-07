@@ -12,7 +12,6 @@ import com.intellij.psi.*;
 import com.intellij.psi.codeStyle.CodeStyleManager;
 import com.intellij.psi.codeStyle.JavaCodeStyleManager;
 import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.ui.CollectionListModel;
 
 import java.util.ArrayList;
 
@@ -46,7 +45,7 @@ public class GenerateModelAction extends AnAction {
         }
     }
 
-    private void createModel(String fileName, CollectionListModel<ModelFieldInfoRow> fields) {
+    private void createModel(String fileName, ArrayList<String[]> fields) {
         String classText = "public class " + fileName + " {\n}";
         String completeFileName = fileName + ".java";
         PsiFile newFile = PsiFileFactory.getInstance(mProject).createFileFromText(completeFileName, StdFileTypes.JAVA, classText);
@@ -93,12 +92,14 @@ public class GenerateModelAction extends AnAction {
         return psiClass;
     }
 
-    private void generateFields(PsiClass psiClass, CollectionListModel<ModelFieldInfoRow> rows) {
-        for (ModelFieldInfoRow fieldInfo : rows.getItems()) {
-            if (!fieldInfo.isValidField()) {
+    private void generateFields(PsiClass psiClass, ArrayList<String[]> rows) {
+        for (String[] fieldInfo : rows) {
+            /*if (!fieldInfo.isValidField()) {
                 break;
             }
-            String fieldString = "private " + fieldInfo.getFieldType() + " " + fieldInfo.getFieldName() + ";";
+            geisa
+            */
+            String fieldString = "private " + fieldInfo[0] + " " + fieldInfo[1] + ";";
             PsiField psiField = mElementFactory.createFieldFromText(fieldString, psiClass);
             psiClass.add(psiField);
         }
